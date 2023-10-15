@@ -1,0 +1,189 @@
+.container{
+    background-color: #c2e0e6;
+}
+
+.book{
+    border-radius: 30px;
+    width: 300px;
+    height: 40px;
+    background-color: #1cc26c;
+    color: #000000;
+    text-align: center;
+    font-family: Inter;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+    position: absolute;
+    right: 30px;
+    top: 100px
+}
+
+.head{
+    color: #000;
+    text-align: left;
+    font-family: Inter;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+
+.formb {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+  }
+  
+  .labelb {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+  
+  .inputb{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .inputb:focus {
+    border-color: #007BFF;
+    outline: none;
+  }
+  
+  .butb {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .buto:hover {
+    background-color: #0056b3;
+  }
+
+  :root{
+    --color-grey-primary: #f0f0f0
+    --color-yellow-primary: goldenrod;
+    --color-orange-primary: rgb(211, 212, 112);
+    --color-green-primary: mediumSeagreen;
+}
+html{
+    font-size: 62.5%;
+    font-style: Arial,Helvetica,Sans-Serif;
+}
+
+.Rooms{
+    display: inline-flex;
+    grid-template-rows: 350px 350px 350px;
+    justify-content: center;
+}
+
+.RoomList{
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 5rem;
+    margin-bottom: 4rem;
+}
+
+.RoomCard{
+    position: relative;
+    background-color: var(--color-orange-primary);
+    margin: 1rem;
+    flex: 1 0 25rem;
+    max-width: 30rem;
+    max-height: 50rem;
+    transition: 0.2s;
+    border-radius: 5rem;
+}
+
+.RoomCard:hover{
+    transform: translateY(-0.5rem);
+    box-shadow: 0.5rem 0.75rem 1.5rem #bbbbbb;
+}
+
+.RoomImage{
+    margin-top: 2rem;
+    max-width: 100%;
+    height: 300px;
+    border-radius: 2.5rem;
+}
+
+.RoomCard-Content{
+    margin: 2rem;
+}
+
+.Availability{
+    font-size: 2rem;
+    text-align: center;
+}
+
+.displayStack_1,
+.displayStack_2{
+    margin:2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.RoomPrice{
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.RoomID{
+    font-size: 2rem;
+    text-align: center;
+}
+
+.Type{
+    font-size: 2rem;
+    text-align: center;
+}
+
+.Hall{
+    margin-top: 2rem;
+    max-width: 100%;
+    height: 300px;
+    border-radius: 2.5rem;
+}
+
+.HallCard{
+    position: relative;
+    background-color: var(--color-orange-primary);
+    margin: 1rem;
+    flex: 1 0 25rem;
+    max-width: 30rem;
+    max-height: 50rem;
+    transition: 0.2s;
+    border-radius: 5rem;
+}
+.HallCard:hover{
+    transform: translateY(-0.5rem);
+    box-shadow: 0.5rem 0.75rem 1.5rem #bbbbbb;
+}
+.Hdetail{
+    margin: 2rem;
+}
+
+.PriceH{
+    font-size: 2.3rem;
+    font-weight: bold;
+    text-align: center;
+}
+.Ava{
+    font-size: 2.3rem;
+    text-align:center;
+}

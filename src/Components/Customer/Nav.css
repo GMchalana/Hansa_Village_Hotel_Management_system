@@ -1,0 +1,48 @@
+*{
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	font-family: "Titillium Web", sans-serif;
+}
+
+:root {
+	--mainColor: #e1e4f1;
+	--mainColorLight: #5767aa;
+	--secondaryColor: #db2b39;
+	--textColor: #000000;
+}
+
+header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 80px;
+	padding: 0 2rem;
+	background-color: var(--mainColor);
+	color:black;
+}
+
+nav a {
+	margin: 0 1rem;
+	color: var(--textColor);
+	text-decoration: none;
+}
+
+nav a:hover {
+	color: var(--secondaryColor);
+}
+
+.nav_logo{
+    height: 55px;
+    width: auto;
+    border-radius: 10px;
+}
+
+.txt1{
+	font-size: 20px;
+}
+
+.nav-link {
+	font-size: 20px; /* You can adjust the size as needed */
+	/* Other styles can be added here, e.g., color, text-decoration, etc. */
+  }

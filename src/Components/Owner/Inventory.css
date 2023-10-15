@@ -1,0 +1,63 @@
+/* Style the table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px auto;
+    border: 1px solid #ddd;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Style the table header */
+  thead {
+    background-color: #007BFF;
+    color: #fff;
+  }
+  
+  /* Style the table header cells */
+  th {
+    padding: 12px;
+    text-align: left;
+  }
+  
+  /* Style the table rows */
+  tr {
+    transition: background-color 0.3s;
+  }
+  
+  /* Style alternating row colors */
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  /* Hover effect on rows */
+  tr:hover {
+    background-color: #ccc;
+  }
+  
+  /* Style table cells */
+  td {
+    padding: 8px;
+    text-align: left;
+  }
+  
+  /* Style the table with a border and shadow */
+  table {
+    border-collapse: separate;
+    border-spacing: 0 8px;
+    border: 2px solid #007BFF;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Add space around the table */
+  table {
+    margin: 20px auto;
+  }
+  
+  /* Add a hover effect on the table cells */
+  td:hover {
+    background-color: #f2f2f2;
+    transition: 0.3s;
+  }
+  

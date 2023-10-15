@@ -1,0 +1,39 @@
+nav a {
+	margin: 0 1rem;
+	color: var(--textColor);
+	text-decoration: none;
+}
+
+nav a:hover {
+	color: var(--secondaryColor);
+}
+
+.nav_logo{
+    height: 55px;
+    width: auto;
+    border-radius: 10px;
+}
+
+.download{
+    height: 20px;
+    width: auto;
+}
+
+.report_btn{
+    border-radius: 30px;
+    width: 200px;
+    height: 45px;
+    background-color: #191919;
+    color: #fbfbfb;
+    text-align: center;
+    font-family: Inter;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    
+}
+
+.txt2{
+    font-size: 20px;
+}
