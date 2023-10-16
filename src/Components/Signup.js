@@ -26,9 +26,17 @@ export default function Signup() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        if(values.password !== values.conform_password){
+            alert("Password does not match");
+        }else if(!values.full_name || values.user_name || values.mobile_number || values.address || values.password || values.conform_password){
+            alert("Enter data for all fields");
+        }
+        else{
         axios.post("http://localhost:8080/hansavillagehotel/signup",values)
-        .then(res=>console.log("Registration Successfully"))
+        .then(res=>alert("Successfully Registered"))
+        .then(res=>navigate('/'))
         .catch(err=>console.log(err));
+        }
 
         
     }
