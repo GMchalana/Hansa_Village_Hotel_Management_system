@@ -21,6 +21,8 @@ export default function Home() {
                 
                  
                         <p className='topic'>Welcome to Hansa Village Hotel</p>
+                        <br/>
+                        <br/>
 
                         <p className='paragraph'>Indulge in a culinary journey with a delightful blend of flavors and impeccable service. 
                             From mouthwatering dishes to a cozy ambiance, we strive to create a memorable dining 
