@@ -54,8 +54,9 @@ const handleSubmit = (event) => {
         Food Items
       </div>
 
-      <div className='Orders'>
+      <div className='Orders' >
         {contents.map(contents =>(
+          <div onClick={()=> setButtonPopup(true)}> 
           <Product
           key={contents.id}
           name={contents.name}
@@ -64,6 +65,7 @@ const handleSubmit = (event) => {
           price={contents.price}
           image={contents.image}
           />
+          </div>
         ))}
       </div>
 

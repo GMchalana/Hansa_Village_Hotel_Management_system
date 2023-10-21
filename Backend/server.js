@@ -4,8 +4,8 @@ const cors = require('cors')
 const bodyParser = require('body-parser');
 
 
-const app = express()
-app.use(cors())
+const app = express();
+app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 
@@ -86,29 +86,56 @@ app.post('/hansavillagehotel/add_meals',(req,res)=>{
 
 
 
-app.post('/hansavillagehotel/inventoty_details',(req,res)=>{
-    const sql2 = "INSERT INTO inventoty_details (Supplier_Name, Supplier_Id, Product_ID , Product_Name, Product_Category, Available_Quentity, Date_of_Purchase, Purchase_Price, Lead_Time, Supplier_Contact_Number) VALUES (?)";
-    const Values=[
-        req.body.supplier_name,
-        req.body.supplier_id,
-        req.body.product_id,
-        req.body.product_name,
-        req.body.product_category,
-        req.body.available_quantity,
-        req.body.date_of_purchase,
-        req.body.purchase_price,
-        req.body.lead_time,
-        req.body.sup_con_number,
-    ];
 
+
+
+
+
+
+
+
+
+
+
+  app.post('/update-inventory', (req, res) => {
+    const { product_name, quantity, date_of_purchase } = req.body;
+
+    const sql = 'UPDATE  inventoty_details SET Available_Quentity = (Available_Quentity +(?)), Date_of_Purchase=? WHERE Product_Name  = ?';
+    const values = [quantity, date_of_purchase, product_name ,/* other values */, /* id */];
+  
+    // Retrieve the current available quantity from the database
+    // Add the input quantity to the current quantity
+    // Update the database with the new quantity
+    db.query(sql, values, (error, result) => {
+        if (error) {
+          console.error('Error updating data:', error);
+          res.status(500).json({ error: 'Database update error' });
+        } else {
+          res.json({ message: 'Data updated successfully' });
+        }
+      });
+    // Respond with a success message or an error message
     
-    db.query(sql2,[Values],(err,data)=>{
-        if(err) return res.json(err);
-        return res.json(data);
-    })
-})
-
-
+  });
+  
+  
+app.post('/inventoty_details/get', (req, res) => {
+     const { product_name, quantity, /* other fields */ } = req.body;
+  
+     // Perform the database update operation here
+     // Example with MySQL:
+     const sql = 'UPDATE  inventoty_details SET Available_Quentity =(Available_Quentity-?) WHERE Product_Name  = ?';
+     const values = [quantity, product_name, /* other values */, /* id */];
+  
+     db.query(sql, values, (error, result) => {
+       if (error) {
+         console.error('Error updating data:', error);
+         res.status(500).json({ error: 'Database update error' });
+       } else {
+         res.json({ message: 'Data updated successfully' });
+       }
+     });
+   });
 
 
 app.post('/hansavillagehotel/add_room',(req,res)=>{
@@ -211,23 +238,7 @@ app.post('/hansavillagehotel', (req,res)=>{
 
 
 
-  app.post('/inventoty_details/get', (req, res) => {
-    const { product_id, reducing_inventory, /* other fields */ } = req.body;
   
-    // Perform the database update operation here
-    // Example with MySQL:
-    const sql = 'UPDATE  inventoty_details SET Available_Quentity =(Available_Quentity-?) WHERE Product_ID  = ?';
-    const values = [reducing_inventory, product_id, /* other values */, /* id */];
-  
-    db.query(sql, values, (error, result) => {
-      if (error) {
-        console.error('Error updating data:', error);
-        res.status(500).json({ error: 'Database update error' });
-      } else {
-        res.json({ message: 'Data updated successfully' });
-      }
-    });
-  });
 
 
 
@@ -240,4 +251,4 @@ app.post('/hansavillagehotel', (req,res)=>{
 
 app.listen(8080,()=>{
     console.log("listening");
-})
+});

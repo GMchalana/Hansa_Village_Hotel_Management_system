@@ -6,89 +6,82 @@ import axios from 'axios';
 
 export default function Used_inventory() {
 
+  const [product_name, setProductName] = useState('');
+  const [quantity, setQuantity] = useState('');
+  
 
-  const [data, setData] = useState({
-    product_id: '',
-    product_name: '',
-    product_category: '',
-    reducing_inventory: '',
-    // Add other fields as needed
-  });
+  // const handleDropdownChange = (event) => {
+  //   // Update the product_name when an option is selected
+  //   setData({ ...data, product_name: event.target.value });
+  // };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setData({ ...data, [name]: value });
-  };
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setData({ ...data, [name]: value });
+  // };
 
-  const handleSubmit = (e) => {
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios.post("http://localhost:8080/inventoty_details/get",data)
-    .then(res=>console.log("Registration Successfully"))
-    .catch(err=>console.log(err));
 
+    try {
+      const response = await axios.post('http://localhost:8080/inventoty_details/get', {
+        product_name,
+        quantity,
+        
+      });
+      
+      console.log(response.data); // Display success message to the user
+    } catch (error) {
+      console.error(error); // Handle errors
+    }
   };
-
-
-
 
   return (
     <div>
-        <Nav/>
-        <div>
-            <form className='formui' onSubmit={handleSubmit}>
-            <div>
-              <label className='labelui'>Product ID:</label>
-              <input
-                type="text"
-                id="product_id"
-                name="product_id"
-                onChange={handleChange}
-                className='inputui'
-                value={data.product_id}
-                
-              />
-            </div>
+      <Nav />
 
-            <div>
-              <label className='labelui'>Product Name:</label>
-              <input
-                type="text"
-                id="product_name"
-                name="product_name"
-                onChange={handleChange}
-                className='inputui'
-                //value={data.product_name}
-              />
-            </div>
+      <div>
+        <form onSubmit={handleSubmit} className='formpi'>
+          <h>Used Inventry</h>
+          <br/><br/>
+          
+          <div>
+            <label className='labelpi'>Product Name:</label>
+            <select
+              id="product_name"
+              name="product_name"
+              onChange={(e) => setProductName(e.target.value)}
+              className='inputpi'
+              value={product_name}
+            >
+              <option value="">Select an option</option>
+              <option value="sugar">Sugar</option>
+              <option value="carrot">Carrot</option>
+              <option value="chili">Chili</option>
+              <option value="karapincha">Karapincha</option>
+            </select>
+          </div>
+          
 
-            <div>
-              <label className='labelui'>Product Category:</label>
-              <input
-                type="text"
-                id="product_category"
-                name="product_category"
-                onChange={handleChange}
-                className='inputui'
-                value={data.product_category}
-              />
-            </div>
+          <div>
+            <label className='labelpi'>Quantity:</label>
+            <input
+              type="text"
+              id="quantity"
+              name="quantity"
+              onChange={(e) => setQuantity(e.target.value)}
+              className='inputpi'
+              value={quantity}
+            />
+          </div>
 
-            <div>
-              <label className='labelui'>Reducing Inventory:</label>
-              <input
-                type="text"
-                id="reducing_inventory"
-                name="reducing_inventory"
-                onChange={handleChange}
-                className='inputui'
-                value={data.reducing_inventory}
-              />
-            </div>
+          
 
-            <button className='butui' type="submit">Submit</button>
-
-            </form>
-        </div>
+          <button className='butpi' type="submit">Submit</button>
+        </form>
+      </div>
     </div>
-  )
+  );
 }
