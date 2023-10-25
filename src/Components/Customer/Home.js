@@ -27,7 +27,8 @@ export default function Home() {
                         <p className='paragraph'>Indulge in a culinary journey with a delightful blend of flavors and impeccable service. 
                             From mouthwatering dishes to a cozy ambiance, we strive to create a memorable dining 
                             experience for you. Join us for an unforgettable culinary adventure that will satisfy 
-                            your senses and leave you craving for more.</p>
+                            your senses and leave you craving for more.</p><br/>
+                        <br/>
 
                     
                     <div>

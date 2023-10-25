@@ -13,6 +13,7 @@ import UsedInventory from './Components/Inventory_manager/Used_inventory';
 import Available_orders from './Components/Kitchen_Manager/Available_orders';
 import AddMeal from './Components/Kitchen_Manager/Add_meal';
 import Reservationmanager from './Components/Reservation_manager/Reservation_manager';
+import ReservationmanagerAddhall from './Components/Reservation_manager/Add_hall';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
             <Route path="/KitchenManager/AvailableOrders" element={<Available_orders/>}/>
             <Route path="/KitchenManager/AddMeal" element={<AddMeal/>}/>
             <Route path="/ReservationManager/Reservations" element={<Reservationmanager/>}/>
+            <Route path="/ReservationManager/Addhall" element={<ReservationmanagerAddhall/>}/>
           </Routes>
         </div>
       </Router>

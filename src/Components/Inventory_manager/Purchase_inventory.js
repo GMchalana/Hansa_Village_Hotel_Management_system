@@ -31,15 +31,16 @@ export default function Purchase_inventory() {
         date_of_purchase,
       });
       
-      console.log(response.data); // Display success message to the user
+      alert("Successfully update the database"); // Display success message to the user
     } catch (error) {
-      console.error(error); // Handle errors
+      alert("There is an error when you entering the data"); // Handle errors
     }
   };
 
   return (
     <div>
       <Nav />
+      <br/><br/>
 
       <div>
         <form onSubmit={handleSubmit} className='formpi'>
@@ -66,7 +67,7 @@ export default function Purchase_inventory() {
           <div>
             <label className='labelpi'>Quantity:</label>
             <input
-              type="text"
+              type="number"
               id="quantity"
               name="quantity"
               onChange={(e) => setQuantity(e.target.value)}

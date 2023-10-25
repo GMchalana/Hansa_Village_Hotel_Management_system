@@ -46,7 +46,9 @@ const handleSubmit = (event) => {
       </div>
 
       <div className='Rooms'>
+        
         {contents.map(contents =>(
+          <div onClick={()=> setButtonPopup(true)}>
           <Rooms
           key={contents.id}
           name={contents.name}
@@ -54,7 +56,7 @@ const handleSubmit = (event) => {
           type={contents.type}
           priceR={contents.priceR}
           imageR={contents.imageR}
-          />
+          /></div>
         ))}
       </div>
       <div className='head'>
@@ -72,14 +74,14 @@ const handleSubmit = (event) => {
       </div>
 
       <div>
-          <input
+          {/* <input
             type="submit"
             value="Make a Reservation"
             className="book"
             placeholder="book"
             onClick={()=> setButtonPopup(true)}
             required
-          />
+          /> */}
       </div>
 
       <Popup_booking trigger={buttonPopup} setTrigger={setButtonPopup}>

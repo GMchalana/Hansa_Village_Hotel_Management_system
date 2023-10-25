@@ -23,7 +23,7 @@ const handleChange=(event) =>{
 const handleSubmit = (event) => {
     event.preventDefault();
     axios.post("http://localhost:8080/hansavillagehotel/add_room",values)
-    .then(res=>console.log("Registration Successfully"))
+    .then(res=>alert("Successfully add a room"))
     .catch(err=>console.log(err));
 
     

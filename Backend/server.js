@@ -38,6 +38,22 @@ app.get('/inventoty_details',(req,res)=>{
     })
 })
 
+
+
+//This is for the testing data fetch for the orders
+app.get('/meals',(req,res)=>{
+    
+    const sql = "SELECT * FROM add_meals";
+    db.query(sql,(err,data)=>{
+        if(err) return res.json(err);
+        return res.json(data);
+    })
+})
+
+
+
+
+
 app.get('/meal_order',(req,res)=>{
     const sql = "SELECT * FROM meal_order";
     db.query(sql,(err,data)=>{
@@ -138,6 +154,35 @@ app.post('/inventoty_details/get', (req, res) => {
    });
 
 
+
+
+
+
+   app.post('/updateOrderStatus', (req, res) => {
+    // Get the meal order ID and new status from the request
+    const { orderId} = req.body;
+  
+    // Update the status in your database (you may need a database connection and SQL query here)
+    // Example using a placeholder for the database update:
+    db.query("UPDATE meal_order SET Status = 'Completed' WHERE Order_Id = ?", [ orderId], (err, result) => {
+    if (err) {
+        res.status(500).json({ error: 'Error updating order status' });
+       } else {
+         res.status(200).json({ message: 'Order status updated successfully' });
+      }
+     });
+  });
+  
+  // Other middleware and configuration
+  
+  
+
+
+
+
+
+
+
 app.post('/hansavillagehotel/add_room',(req,res)=>{
     const sql2 = "INSERT INTO add_room (Room_Id, Charge_per_Day, Type , Image) VALUES (?)";
     const Values=[
@@ -155,12 +200,15 @@ app.post('/hansavillagehotel/add_room',(req,res)=>{
 
 
 app.post('/hansavillagehotel/meal_order',(req,res)=>{
-    const sql2 = "INSERT INTO meal_order (Selected_Item, Order_Type, Requiered_Time , Table_Number) VALUES (?)";
+    const sql2 = "INSERT INTO meal_order (Selected_Item, Quantity, Order_Type , Requiered_Time, Table_Number, Full_Name, Mobile_Numbe) VALUES (?)";
     const Values=[
-        req.body.selected_item,
-        req.body.order_type,
+        req.body.item,
+        req.body.quantity,
+        req.body.ordertype,
         req.body.required_time,
         req.body.table_number,
+        req.body.customer_name,
+        req.body.mobile_number,
     ];
     db.query(sql2,[Values],(err,data)=>{
         if(err) return res.json(err);

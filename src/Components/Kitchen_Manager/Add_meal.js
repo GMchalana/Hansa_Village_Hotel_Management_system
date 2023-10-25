@@ -22,7 +22,7 @@ const handleChange=(event) =>{
 const handleSubmit = (event) => {
     event.preventDefault();
     axios.post("http://localhost:8080/hansavillagehotel/add_meals",values)
-    .then(res=>console.log("Registration Successfully"))
+    .then(res=>alert("Successfully updated"))
     .catch(err=>console.log(err));
 
     
@@ -36,16 +36,7 @@ const handleSubmit = (event) => {
         <Nav/>
 
         <form className='formam' onSubmit={handleSubmit}>
-        <div>
-              <label className='labelam'>Meal ID:</label>
-              <input
-                type="text"
-                id="meal_id"
-                name="meal_id"
-                onChange={handleChange}
-                className='inputam'
-              />
-            </div>
+        
 
             <div>
               <label className='labelam'>Meal Name:</label>
