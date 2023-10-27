@@ -23,7 +23,7 @@ export default function
 
                     <input
                         type="submit"
-                        value="Raw Material Cost Report"
+                        value="Sales Report"
                         className="report_btn"
                         placeholder="rmc_report"
                         required
@@ -32,7 +32,7 @@ export default function
                     <br/>
                     <input
                         type="submit"
-                        value="Stores Report"
+                        value="Hall Utilization Report"
                         className="report_btn"
                         placeholder="stores_report"
                         required
@@ -41,7 +41,7 @@ export default function
                     <br/>
                     <input
                         type="submit"
-                        value="Sales Report"
+                        value="Room Utilization Report"
                         className="report_btn"
                         placeholder="sales_report"
                         required

@@ -92,7 +92,7 @@ const [cardsData, setCardsData] = useState([]);
             
             <Popup_orders trigger={buttonPopup} setTrigger={setButtonPopup}>
 
-<h2>My Form</h2>
+<h2>Order Your Meal</h2>
 
 <form className='formo' onSubmit={handleSubmit}>
 

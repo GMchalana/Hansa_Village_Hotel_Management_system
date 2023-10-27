@@ -9,7 +9,7 @@ export function Rooms(props){
                 <div className='RoomID'>Room ID:{props.idR}</div>
                 <div className='Availability'>Availability:{props.availability}</div>
                 <div className='Type'>Type:{props.type}</div>
-                <div className='RoomPrice'>Rs:{props.priceR}</div>
+                <div className='RoomPrice'>Charge per hours:Rs{props.priceR}</div>
             </div>
         </div>
     );

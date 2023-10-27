@@ -3,6 +3,7 @@ import './Booking.css';
 import Nav from './Nav';
 import { useState } from 'react';
 import Popup_booking from './Popup_booking';
+import Popup_booking_hall from './Popup_booking_hall';
 import axios from 'axios';
 import {Rooms} from './Rooms';
 //import { Hall } from './Hall';
@@ -36,6 +37,8 @@ const handleSubmit = (event) => {
 
 
   const [buttonPopup, setButtonPopup] = useState(false)
+
+  const [buttonPopup1, setButtonPopup1] = useState(false)
   return (
     <div className='container'>
         <Nav/>
@@ -64,11 +67,11 @@ const handleSubmit = (event) => {
       </div>
      
       <div>
-      <div className='HallCard'>
+      <div className='HallCard' onClick={()=> setButtonPopup1(true)}>
         <img className="Hall" src={ImagesH} alt="Hall.img" />
         <div className='Hdetail'>
           <h4 className='Ava'>Availability:Yes</h4>
-          <h5 className='PriceH'>Charge Per Day:Rs 1000/=</h5>
+          {/* <h5 className='PriceH'>Charge Per Day:Rs 1000/=</h5> */}
         </div>
       </div>
       </div>
@@ -86,19 +89,10 @@ const handleSubmit = (event) => {
 
       <Popup_booking trigger={buttonPopup} setTrigger={setButtonPopup}>
 
-          <h2>My Form</h2>
+          <h2>Book Your Room</h2>
           <form className='formb' onSubmit={handleSubmit}>
 
-            <div>
-              <label className='labelb'>Number Of Guest:</label>
-              <input
-                type="text"
-                id="number_of_guest"
-                name="number_of_guest"
-                onChange={handleChange}
-                className='inputb'
-              />
-            </div>
+            
 
             <div>
               <label className='labelb'>Room Number:</label>
@@ -106,6 +100,17 @@ const handleSubmit = (event) => {
                 type="text"
                 id="room_number"
                 name="room_number"
+                onChange={handleChange}
+                className='inputb'
+              />
+            </div>
+
+            <div>
+              <label className='labelb'>Number Of Guest:</label>
+              <input
+                type="text"
+                id="number_of_guest"
+                name="number_of_guest"
                 onChange={handleChange}
                 className='inputb'
               />
@@ -138,6 +143,65 @@ const handleSubmit = (event) => {
 
 
       </Popup_booking>
+
+
+
+      <Popup_booking_hall trigger={buttonPopup1} setTrigger={setButtonPopup1}>
+
+          <h2>Book Your Hall</h2>
+          <form className='formb' onSubmit={handleSubmit}>
+
+            <div>
+              <label className='labelb'>Number Of Guest:</label>
+              <input
+                type="text"
+                id="number_of_guest"
+                name="number_of_guest"
+                onChange={handleChange}
+                className='inputb'
+              />
+            </div>
+
+            <div>
+              <label className='labelb'>Requirments:</label>
+              <input
+                type="text"
+                id="room_number"
+                name="room_number"
+                onChange={handleChange}
+                className='inputb'
+              />
+            </div>
+
+            <div>
+              <label className='labelb'>Arrival Date & Time:</label>
+              <input
+                type="date"
+                id="date_and_time"
+                name="date_and_time"
+                onChange={handleChange}
+                className='inputb'
+              />
+            </div>
+
+            <div>
+              <label className='labelb'>Event Details:</label>
+              <input
+                type="text"
+                id="duration"
+                name="duration"
+                onChange={handleChange}
+                className='inputb'
+              />
+            </div>
+
+            <button className='butb' type="submit">Submit</button>
+          </form>
+
+
+      </Popup_booking_hall>
+
+
 
 
     </div>
