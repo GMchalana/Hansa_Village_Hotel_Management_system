@@ -2,7 +2,9 @@ const express = require('express');
 const mysql = require('mysql')
 const cors = require('cors')
 const bodyParser = require('body-parser');
-
+const PDFDocument = require('pdfkit');
+const fs = require('fs');
+const http = require('http');
 
 const app = express();
 app.use(cors());
@@ -17,6 +19,14 @@ const db =mysql.createConnection({
     password:'',
     database:'hansavillagehotel'
 })
+
+const pool = mysql.createPool({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'hansavillagehotel'
+  });
+  
 
 app.get('/',(re,res)=>{
     return res.json("this is Back");
@@ -199,37 +209,75 @@ app.post('/hansavillagehotel/add_room',(req,res)=>{
 
 
 
-app.post('/hansavillagehotel/meal_order',(req,res)=>{
-    const sql2 = "INSERT INTO meal_order (Selected_Item, Quantity, Order_Type , Requiered_Time, Table_Number, Full_Name, Mobile_Numbe) VALUES (?)";
-    const Values=[
+app.post('/hansavillagehotel/meal_ordercus',async (req, res) => {
+    
+    const sql2 = "INSERT INTO meal_order (Selected_Item, Quantity, Table_Number, Requiered_Time, Order_Type, Full_Name, Customer_Id, Mobile_Number) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    
+
+    const values = [
         req.body.item,
         req.body.quantity,
-        req.body.ordertype,
-        req.body.required_time,
         req.body.table_number,
+        req.body.required_time,
+        req.body.order_type,
         req.body.customer_name,
+        req.body.customer_id,
         req.body.mobile_number,
     ];
-    db.query(sql2,[Values],(err,data)=>{
-        if(err) return res.json(err);
-        return res.json(data);
-    })
-})
+    db.query(sql2, values, (err, data) => {
+
+        
+        if (err) {
+            console.error("Error:", err); // Log the error for debugging
+            return res.status(500).json({ error: "An error occurred" }); // Return an error response with a meaningful message
+        }
+        return res.status(200).json(data); // Return a success response
+    });
+});
 
 
-app.post('/hansavillagehotel/room_booking',(req,res)=>{
-    const sql2 = "INSERT INTO room_booking (Num_of_Guests, Room_Number, Arrival_Date_Time, Duration ) VALUES (?)";
+
+app.post('/hansavillagehotel/room_booking',async (req,res)=>{
+    const sql2 = "INSERT INTO room_booking (Num_of_Guests, Room_Number, Arrival_Date_Time, Duration, Customer_Id ) VALUES (?, ?, ?, ?, ?)";
     const Values=[
         req.body.number_of_guest,
         req.body.room_number,
         req.body.date_and_time,
         req.body.duration,
+        req.body.customer_id,
     ];
-    db.query(sql2,[Values],(err,data)=>{
-        if(err) return res.json(err);
-        return res.json(data);
-    })
-})
+    db.query(sql2,Values,(err,data)=>{
+        if (err) {
+            console.error("Error:", err); // Log the error for debugging
+            return res.status(500).json({ error: "An error occurred" }); // Return an error response with a meaningful message
+        }
+        return res.status(200).json(data); // Return a success response
+    });
+});
+
+
+
+
+
+
+app.post('/hansavillagehotel/hall_booking',async (req,res)=>{
+    const sql2 = "INSERT INTO hall_booking (Event_Detail, Planning_Date, Num_of_Guests, Customer_Id, Decorations ) VALUES (?, ?, ?, ?, ?)";
+    const values=[
+        req.body.details,
+        req.body.date_and_time,
+        req.body.number_of_guest,
+        req.body.customer_id,
+        req.body.requirements,
+    ];
+    db.query(sql2,values,(err,data)=>{
+        if (err) {
+            console.error("Error:", err); // Log the error for debugging
+            return res.status(500).json({ error: "An error occurred" }); // Return an error response with a meaningful message
+        }
+        return res.status(200).json(data); // Return a success response
+    });
+});
+
 
 
 
@@ -268,32 +316,44 @@ app.post('/hansavillagehotel', (req,res)=>{
 
 
 
-/*app.post('/inventoty_details', (req, res) => {
-    const { itemId, quantityToReduce } = req.body;
+app.get('/generate-pdf', async (req, res) => {
+    try {
+      // Fetch data from the database
+      const result =  db.query('SELECT * FROM inventoty_details');
+    const rows = result.rows;
   
-    // Assuming you have a table named `inventory_details`.
-    const sql = `UPDATE inventoty_details SET Available_Quentity = Available_Quentity - ? WHERE Product_ID = ?`;
+      // Create a PDF document
+      const doc = new PDFDocument();
+      const pdfName = 'report.pdf';
   
-    db.query(sql, [quantityToReduce, itemId], (err, result) => {
-      if (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Error updating inventory' });
-      } else {
-        res.json({ message: 'Inventory updated successfully' });
-      }
-    });
-  });*/
-
-
-
+      // Set the appropriate Content-Type header
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename=${pdfName}`);
   
-
-
-
-
-
-
+      // Pipe the PDF to the response
+      doc.pipe(res);
   
+      // PDF content
+      doc.fontSize(16);
+      doc.text('Sample PDF Report', 100, 100);
+      doc.text('This is a sample PDF report generated from Node.js.', 100, 150);
+  
+      // Include data from the database in the PDF
+      rows.forEach((row) => {
+        doc.text(`ID: ${row.id}, Name: ${row.name}`, 100, doc.y + 20);
+      });
+  
+      // Finalize the PDF
+      doc.end();
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      res.status(500).json({ error: 'An error occurred' });
+    }
+  });
+
+
+
+
 
 
 

@@ -9,6 +9,16 @@ export default function Home() {
 
     let navigate= useNavigate();
 
+    const goToOrderPage = () => {
+        // Navigating to another route, e.g., '/another-page'
+        navigate('/CustomerOrders');
+      };
+
+      const goToBookPage = () => {
+        // Navigating to another route, e.g., '/another-page'
+        navigate('/CustomerBooking');
+      };
+
   return (
     <div>
            <Nav/>
@@ -41,6 +51,7 @@ export default function Home() {
                         //onChange={handleChange}
                         className="meal"
                         placeholder="Order Your Meal"
+                        onClick={goToOrderPage}
                         required
                         />
                     </div>
@@ -55,6 +66,7 @@ export default function Home() {
                         //onChange={handleChange}
                         className="room"
                         placeholder="Book Your Room or Hall"
+                        onClick={goToBookPage}
                         required
                         />
                     </div>

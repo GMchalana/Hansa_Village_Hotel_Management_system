@@ -27,10 +27,14 @@ export default function Signup() {
     const handleSubmit = (event) => {
         event.preventDefault();
         if(values.password !== values.conform_password){
-            alert("Password does not match");
-        }else if(!values.full_name || values.user_name || values.mobile_number || values.address || values.password || values.conform_password){
-            alert("Enter data for all fields");
+            alert("Password does not match");}
+        else if (!isValidMobileNumber(values.mobile_number)) {
+            alert("Invalid mobile number format");
         }
+        else if(!values.full_name || !values.user_name || !values.mobile_number || !values.address || !values.password || !values.conform_password){
+           alert("Enter data for all fields");
+        }
+         
         else{
         axios.post("http://localhost:8080/hansavillagehotel/signup",values)
         .then(res=>alert("Successfully Registered"))
@@ -39,6 +43,14 @@ export default function Signup() {
         }
 
         
+    }
+
+    function isValidMobileNumber(number) {
+        // Define a regular expression pattern for a common mobile number format.
+        // Modify this pattern to match the specific format you require.
+        const pattern = /^\+\d{11}$/; // Example: +1-1234567890
+    
+        return pattern.test(number);
     }
       
 

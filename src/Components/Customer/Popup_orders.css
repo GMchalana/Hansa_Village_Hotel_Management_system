@@ -1,30 +1,39 @@
-.popup{
-    position:fixed;
+.popup {
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100vh;
-    background-color: aliceblue;
-
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
     display: flex;
-    justify-content:center;
+    justify-content: center;
     align-items: center;
-}
-
-.popup_inner{
+    z-index: 999;
+  }
+  
+  .popup_inner {
     position: relative;
-    padding: 50px;
-    width: 50%;
-    max-width: 500px;
-    background-color: aquamarine;
-    border-radius: 30px;
-    
-
-}
-
-.popup_inner .close_btn{
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    width: 60%;
+    max-width: 400px;
+  }
+  
+  .new {
+    position: relative; /* Add this to create a relative positioning context */
+  }
+  
+  .close_btn {
     position: absolute;
-    top: 16px;
-    right:16px;
-
-}
+    top: -12px; /* Adjust the top value to move the button down */
+    right: 10px;
+    background: #ff0000;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px; /* Add this line to move the button down */
+  }
+  
