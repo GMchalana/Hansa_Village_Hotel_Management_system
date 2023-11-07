@@ -1,29 +1,28 @@
 import React from 'react';
-import axios from 'axios';
 
 function App() {
   const generatePDF = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/generate-pdf', {
-        responseType: 'blob', // Ensure the response is treated as binary data
-      });
+      // Make a request to your Node.js backend to generate the PDF
+      const response = await fetch('http://localhost:8080/generate-pdf');
+      if (response.ok) {
+        // Convert the response to a blob
+        const blob = await response.blob();
 
-      // Create a Blob object from the response data
-      const blob = new Blob([response.data], { type: 'application/pdf' });
+        // Create a download link and trigger the download
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'report.pdf';
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
 
-      // Create a download URL for the Blob
-      const url = window.URL.createObjectURL(blob);
-
-      // Create a link element and trigger a click to download the PDF
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'report.pdf';
-      a.style.display = 'none';
-      document.body.appendChild(a);
-      a.click();
-
-      // Clean up
-      window.URL.revokeObjectURL(url);
+        // Clean up
+        window.URL.revokeObjectURL(url);
+      } else {
+        console.error('Error generating PDF:', response.status);
+      }
     } catch (error) {
       console.error('Error generating PDF:', error);
     }

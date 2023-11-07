@@ -73,23 +73,23 @@ app.get('/meal_order',(req,res)=>{
 })
 
 
-//For post method
-app.post('/hansavillagehotel/signup',(req,res)=>{
-    const sql = "INSERT INTO signup (Full_Name, User_Name, Mobile_Number, Address, Password) VALUES (?)";
-    const Values=[
-        req.body.full_name,
-        req.body.user_name,
-        req.body.mobile_number,
-        req.body.address,
-        req.body.password,
-    ];
+// //For post method
+// app.post('/hansavillagehotel/signup',(req,res)=>{
+//     const sql = "INSERT INTO signup (Full_Name, User_Name, Mobile_Number, Address, Password) VALUES (?)";
+//     const Values=[
+//         req.body.full_name,
+//         req.body.user_name,
+//         req.body.mobile_number,
+//         req.body.address,
+//         req.body.password,
+//     ];
 
     
-    db.query(sql,[Values],(err,data)=>{
-        if(err) return res.json(err);
-        return res.json(data);
-    })
-})
+//     db.query(sql,[Values],(err,data)=>{
+//         if(err) return res.json(err);
+//         return res.json(data);
+//     })
+// })
 
 
 
@@ -319,23 +319,18 @@ app.post('/hansavillagehotel', (req,res)=>{
 app.get('/generate-pdf', async (req, res) => {
     try {
       // Fetch data from the database
-      const result =  db.query('SELECT * FROM inventoty_details');
-    const rows = result.rows;
+      const [rows] =  db.query('SELECT * FROM inventoty_details'); // Replace with your actual query
   
       // Create a PDF document
       const doc = new PDFDocument();
-      const pdfName = 'report.pdf';
   
-      // Set the appropriate Content-Type header
+      // Stream the PDF directly to the response
       res.setHeader('Content-Type', 'application/pdf');
-      res.setHeader('Content-Disposition', `attachment; filename=${pdfName}`);
-  
-      // Pipe the PDF to the response
+      res.setHeader('Content-Disposition', 'attachment; filename=report.pdf');
       doc.pipe(res);
   
       // PDF content
-      doc.fontSize(16);
-      doc.text('Sample PDF Report', 100, 100);
+      doc.fontSize(16).text('Sample PDF Report', 100, 100);
       doc.text('This is a sample PDF report generated from Node.js.', 100, 150);
   
       // Include data from the database in the PDF
@@ -350,6 +345,29 @@ app.get('/generate-pdf', async (req, res) => {
       res.status(500).json({ error: 'An error occurred' });
     }
   });
+
+
+
+
+
+//Ravin new signup part
+  app.post('/hansavillagehotel/newsign',(req,res)=>{
+    const sql = "INSERT INTO newsign (name, email, password) VALUES (?)";
+    const Values=[
+        req.body.name,
+        req.body.email,
+        req.body.password,
+        
+    ];
+
+    
+    db.query(sql,[Values],(err,data)=>{
+        if(err) return res.json(err);
+        return res.json(data);
+    })
+})
+
+
 
 
 

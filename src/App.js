@@ -15,6 +15,7 @@ import AddMeal from './Components/Kitchen_Manager/Add_meal';
 import Reservationmanager from './Components/Reservation_manager/Reservation_manager';
 import ReservationmanagerAddhall from './Components/Reservation_manager/Add_hall';
 import App1 from './Components/Inventory_manager/App1';
+import Signupravin from './Components/Signupravin';
 function App() {
   return (
     <div className="App">
@@ -36,6 +37,7 @@ function App() {
             <Route path="/ReservationManager/Reservations" element={<Reservationmanager/>}/>
             <Route path="/ReservationManager/Addhall" element={<ReservationmanagerAddhall/>}/>
             <Route path="/App1" element={<App1/>}/>
+            <Route path="/Signupravin" element={<Signupravin/>}/>
           </Routes>
         </div>
       </Router>
