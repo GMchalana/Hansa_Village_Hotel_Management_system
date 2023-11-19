@@ -21,7 +21,7 @@ export function Product(props){
                 </div> */}
                 <div className='ProductCard_Content'></div>
                 <div className='ProductName'>{props.name}</div>
-                <div className='FoodID'>Food ID:{props.ids}</div>
+                
                 <div className='Size'>Size:{props.size}</div>
                 <div className='ProductPrice'>Rs:{props.price}</div>
             </div>

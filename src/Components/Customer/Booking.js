@@ -96,8 +96,8 @@ export default function Booking() {
       <div className='head'>Hall</div>
       <div>
         <div className='HallCard' onClick={() => setButtonPopup1(true)}>
-          <img className='Hall' src={ImagesH} alt='Hall.img' />
-          <div className='Hdetail'>
+            <img className='Hall' src={ImagesH} alt='Hall.img' />
+            <div className='Hdetail'>
             <h4 className='Ava'>Availability: Yes</h4>
           </div>
         </div>
@@ -161,6 +161,7 @@ export default function Booking() {
           </button>
         </form>
       </Popup_booking>
+
       <Popup_booking_hall trigger={buttonPopup1} setTrigger={setButtonPopup1}>
         <h2>Book Your Hall</h2>
         <form className='formb' onSubmit={handleHallSubmit}>

@@ -1,3 +1,6 @@
+// import multer from 'multer';
+// import path from 'path';
+
 const express = require('express');
 const mysql = require('mysql')
 const cors = require('cors')
@@ -5,13 +8,20 @@ const bodyParser = require('body-parser');
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
 const http = require('http');
+const multer = require('multer');
+//const path = require('path');
+const crypto = require('crypto');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
+app.use(express.static('uploads'));
 
 
+//new
+
+app.use(express.urlencoded({ extended: true }));
 
 const db =mysql.createConnection({
     host: "localhost",
@@ -20,17 +30,85 @@ const db =mysql.createConnection({
     database:'hansavillagehotel'
 })
 
-const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'hansavillagehotel'
-  });
+// const pool = mysql.createPool({
+//     host: 'localhost',
+//     user: 'root',
+//     password: '',
+//     database: 'hansavillagehotel'
+//   });
   
 
 app.get('/',(re,res)=>{
     return res.json("this is Back");
 })
+
+
+
+
+
+
+
+
+// This is testing add_meal part
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'uploads');
+    },
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + path.extname(file.originalname));
+    },
+  });
+  
+  const upload = multer({ storage: storage });
+  
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
+  
+  app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+  });
+  
+  app.use('/hansavillagehotel/uploads', express.static('uploads'));
+  
+  // Assuming you have a 'forms' table in your database
+  app.post('/submit_form', upload.single('image'), (req, res) => {
+    try {
+      const { meal_name, size, price } = req.body;
+      const imagePath = req.file ? `uploads/${req.file.filename}` : null;
+  
+      const sql = 'INSERT INTO add_meals (Name, Size, Price, Image) VALUES (?, ?, ?, ?)';
+      const values = [meal_name, size, price, imagePath];
+  
+      db.query(sql, values, (err, result) => {
+        if (err) {
+          console.error('Error executing SQL query:', err);
+          return res.status(500).json({ error: 'Internal Server Error' });
+        }
+  
+        res.status(200).json({ message: 'Form submitted successfully', imagePath });
+      });
+    } catch (error) {
+      console.error('Error processing form submission:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  
+
+
+
+  app.get('/hansavillagehotel/add_meals', (req, res) => {
+    const sql='SELECT * FROM add_meals';
+    db.query(sql,(err, data)=>{
+      if(err) return res.json(err);
+      return res.json(data);
+    })
+  })
+
+
+
 
 app.get('/signup',(req,res)=>{
     const sql = "SELECT * FROM signup";
@@ -93,22 +171,24 @@ app.get('/meal_order',(req,res)=>{
 
 
 
-app.post('/hansavillagehotel/add_meals',(req,res)=>{
-    const sql1 = "INSERT INTO add_meals (Meal_Id, Name, Size, Price, Image) VALUES (?)";
-    const Values=[
-        req.body.meal_id,
-        req.body.meal_name,
-        req.body.size,
-        req.body.price,
-        req.body.add_image,
-    ];
+
+// After the test please untag this part
+
+// app.post('/hansavillagehotel/add_meals',(req,res)=>{
+//     const sql1 = "INSERT INTO add_meals (Name, Size, Price, Image) VALUES (?)";
+//     const Values=[
+//         req.body.meal_name,
+//         req.body.size,
+//         req.body.price,
+//         req.body.add_image,
+//     ];
 
     
-    db.query(sql1,[Values],(err,data)=>{
-        if(err) return res.json(err);
-        return res.json(data);
-    })
-})
+//     db.query(sql1,[Values],(err,data)=>{
+//         if(err) return res.json(err);
+//         return res.json(data);
+//     })
+// })
 
 
 

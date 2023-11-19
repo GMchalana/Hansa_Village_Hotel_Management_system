@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import Nav from './Nav';
 import './Orders.css';
 import Popup_orders from './Popup_orders';
@@ -45,7 +45,19 @@ export default function Orders() {
 
   const [buttonPopup, setButtonPopup] = useState(false)
 
-  
+
+
+
+
+
+
+  const[data,setData]=useState([])
+  useEffect(()=>{
+      fetch("http://localhost:8080/hansavillagehotel/add_meals")
+      .then(res => res.json())
+      .then(data=>setData(data))
+      .catch(err => console.log(err));
+  },[])
 
   return (
     <div className='container'>
@@ -53,10 +65,10 @@ export default function Orders() {
       <br />
       <div className='head'>Food Items</div>
       <div className='Orders' >
-        {contents.map((contents, index) =>(
+        {data.map((contents, index) =>(
           <div
           onClick={() => {
-            setSelectedCardName(contents.name); // Set the selected card's name
+            setSelectedCardName(contents.Name); // Set the selected card's name
             setButtonPopup(true);
           }}
           key={index}
@@ -64,11 +76,11 @@ export default function Orders() {
           <div onClick={()=> setButtonPopup(true)}> 
           <Product
           key={contents.id}
-          name={contents.name}
+          name={contents.Name}
           ids={contents.ids}
-          size={contents.size}
-          price={contents.price}
-          image={contents.image}
+          size={contents.Size}
+          price={contents.Price}
+          image={'http://localhost:8080/hansavillagehotel/'+contents.Image}
           />
           </div>
           </div>
