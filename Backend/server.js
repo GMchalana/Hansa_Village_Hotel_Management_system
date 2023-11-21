@@ -138,6 +138,24 @@ app.get('/meals',(req,res)=>{
     })
 })
 
+app.get('/hall',(req,res)=>{
+    
+  const sql = "SELECT * FROM hall_booking";
+  db.query(sql,(err,data)=>{
+      if(err) return res.json(err);
+      return res.json(data);
+  })
+})
+
+app.get('/room',(req,res)=>{
+    
+  const sql = "SELECT * FROM room_booking";
+  db.query(sql,(err,data)=>{
+      if(err) return res.json(err);
+      return res.json(data);
+  })
+})
+
 
 
 
@@ -291,12 +309,14 @@ app.post('/hansavillagehotel/add_room',(req,res)=>{
 
 app.post('/hansavillagehotel/meal_ordercus',async (req, res) => {
     
-    const sql2 = "INSERT INTO meal_order (Selected_Item, Quantity, Table_Number, Requiered_Time, Order_Type, Full_Name, Customer_Id, Mobile_Number) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    
+    const sql2 = "INSERT INTO meal_order (Selected_Item, Quantity, Unit_Price, Amount, Table_Number, Requiered_Time, Order_Type, Full_Name, Customer_Id, Mobile_Number) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    const amount = req.body.quantity * req.body.unit_price;
 
     const values = [
         req.body.item,
         req.body.quantity,
+        req.body.unit_price,
+        amount,
         req.body.table_number,
         req.body.required_time,
         req.body.order_type,
@@ -318,13 +338,14 @@ app.post('/hansavillagehotel/meal_ordercus',async (req, res) => {
 
 
 app.post('/hansavillagehotel/room_booking',async (req,res)=>{
-    const sql2 = "INSERT INTO room_booking (Num_of_Guests, Room_Number, Arrival_Date_Time, Duration, Customer_Id ) VALUES (?, ?, ?, ?, ?)";
+    const sql2 = "INSERT INTO room_booking (Num_of_Guests, Room_Number, Arrival_Date_Time, Duration, Customer_Id, Room_Type ) VALUES (?, ?, ?, ?, ?, ?)";
     const Values=[
         req.body.number_of_guest,
         req.body.room_number,
         req.body.date_and_time,
         req.body.duration,
         req.body.customer_id,
+        req.body.room_type,
     ];
     db.query(sql2,Values,(err,data)=>{
         if (err) {
@@ -353,7 +374,7 @@ app.post('/hansavillagehotel/hall_booking',async (req,res)=>{
         if (err) {
             console.error("Error:", err); // Log the error for debugging
             return res.status(500).json({ error: "An error occurred" }); // Return an error response with a meaningful message
-        }
+        }else{}
         return res.status(200).json(data); // Return a success response
     });
 });

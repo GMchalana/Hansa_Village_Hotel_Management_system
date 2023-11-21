@@ -15,6 +15,7 @@ export default function Booking() {
     room_number: '',
     date_and_time: '',
     duration: '',
+    room_type:'',
   });
 
   const [hallValues, setHallValues] = useState({
@@ -23,6 +24,7 @@ export default function Booking() {
     requirements: '',
     date_and_time: '',
     details: '',
+    
   });
 
   const handleRoomChange = (event) => {
@@ -80,8 +82,8 @@ export default function Booking() {
       <div className='head'>Rooms</div>
       <div className='Rooms'>
         {contents.map((content, index) => (
-          <div key={content.idR}>
-            <div onClick={() => setRoomValues({ ...roomValues, room_number: content.idR })}>
+          <div key={content.idR} onClick={() => setButtonPopup(true)}> 
+            <div onClick={() => setRoomValues({ ...roomValues, room_number: content.idR , room_type: content.type})}>
               <Rooms
                 name={content.name}
                 idR={content.idR}
@@ -126,6 +128,20 @@ export default function Booking() {
               value={roomValues.room_number}
             />
           </div>
+
+          <div>
+            <label className='labelb'>Room type:</label>
+            <input
+              type='text'
+              id='room_type'
+              name='room_type'
+              onChange={handleRoomChange}
+              className='inputb'
+              value={roomValues.room_type}
+            />
+          </div>
+
+
           <div>
             <label className='labelb'>Number Of Guest:</label>
             <input
@@ -139,7 +155,7 @@ export default function Booking() {
           <div>
             <label className='labelb'>Arrival Date & Time:</label>
             <input
-              type='datetime-local'
+              type='date'
               id='date_and_time'
               name='date_and_time'
               onChange={handleRoomChange}

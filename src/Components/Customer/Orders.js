@@ -11,6 +11,7 @@ export default function Orders() {
   const [values, setValues] = useState({
     item: '',
     quantity: '',
+    unit_price:'',
     order_type: 'Take Away', // Set default value
     required_time: '',
     table_number: '',
@@ -20,6 +21,7 @@ export default function Orders() {
   });
 
   const [selectedCardName, setSelectedCardName] = useState('');
+  const [selectedCardPrice, setSelectedCardPrice] = useState('');
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -28,13 +30,14 @@ export default function Orders() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    //console.log("Item value:", values.item);
     axios
       .post('http://localhost:8080/hansavillagehotel/meal_ordercus', values)
       .then((res) => {
-        if (res.data === 'Success') {
-          alert('Order placed successfully');
-        } else {
+        if (res.data === 'An error occurred') {
           alert('Error: ' + res.data);
+        } else {
+          alert('Order placed successfull');
         }
       })
       .catch((err) => {
@@ -68,7 +71,8 @@ export default function Orders() {
         {data.map((contents, index) =>(
           <div
           onClick={() => {
-            setSelectedCardName(contents.Name); // Set the selected card's name
+            setSelectedCardName(contents.Name);
+            setSelectedCardPrice(contents.Price); // Set the selected card's name
             setButtonPopup(true);
           }}
           key={index}
@@ -110,8 +114,22 @@ export default function Orders() {
                 name='quantity'
                 onChange={handleChange}
                 className='inputo'
+                
               />
             </div>
+
+            <div>
+              <label className='labelo'>Unit Price:</label>
+              <input
+                type='text'
+                id='unit_price'
+                name='unit_price'
+                onChange={handleChange}
+                className='inputo'
+                value={selectedCardPrice}
+              />
+            </div>
+
             <div>
               <label className='labelo'>Order Type:</label>
               <select
