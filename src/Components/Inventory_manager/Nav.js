@@ -72,7 +72,7 @@ function Nav() {
         <a href="/InventoryManager/InventoryDetails">Inventory Details</a>
         <a href="/InventoryManager/PurchaseInventory">Purchase Inventory</a>
         <a href="/InventoryManager/UsedInventory">Used Inventory</a>
-        <img
+        {/* <img
           className="download"
           onClick={() => setButtonPopup(true)}
           src={download}
@@ -89,7 +89,7 @@ function Nav() {
           <br />
           <input type="submit" value="Stores Report" className="report_btn" />
           <br />
-        </Popup_reports>
+        </Popup_reports> */}
       </nav>
     </header>
   );

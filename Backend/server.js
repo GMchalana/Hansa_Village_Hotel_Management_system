@@ -9,7 +9,7 @@ const PDFDocument = require('pdfkit');
 const fs = require('fs');
 const http = require('http');
 const multer = require('multer');
-//const path = require('path');
+const path = require('path');
 const crypto = require('crypto');
 
 const app = express();
@@ -107,6 +107,69 @@ const storage = multer.diskStorage({
     })
   })
 
+  
+
+
+
+
+
+  //Backend part for uploadding ROOm item
+  const storager = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'uploadsr');
+    },
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + path.extname(file.originalname));
+    },
+  });
+
+
+  const uploadr = multer({ storage: storager });
+
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
+  
+  app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+  });
+
+  app.use('/hansavillagehotel/uploadsr', express.static('uploadsr'));
+
+  app.post('/submit_formr', uploadr.single('image'), (req, res) => {
+    try {
+      const { charge, type} = req.body;
+      const imagePath = req.file ? `uploadsr/${req.file.filename}` : null;
+  
+      const sql = 'INSERT INTO add_room (Charge_per_Day, Type, Image) VALUES (?, ?, ?)';
+      const values = [charge, type, imagePath];
+  
+      db.query(sql, values, (err, result) => {
+        if (err) {
+          console.error('Error executing SQL query:', err);
+          return res.status(500).json({ error: 'Internal Server Error' });
+        }
+  
+        res.status(200).json({ message: 'Form submitted successfully', imagePath });
+      });
+    } catch (error) {
+      console.error('Error processing form submission:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+
+
+  //Getting Room Item
+  app.get('/hansavillagehotel/add_room', (req, res) => {
+    const sql='SELECT * FROM add_room';
+    db.query(sql,(err, data)=>{
+      if(err) return res.json(err);
+      return res.json(data);
+    })
+  })
+
 
 
 
@@ -167,6 +230,65 @@ app.get('/meal_order',(req,res)=>{
         return res.json(data);
     })
 })
+
+// app.get('/meal_orderinvoice',(req,res)=>{
+//   const sql = "SELECT * FROM meal_order WHERE Order_Id=?";
+//   const Values=[req.body.Order_Id]
+//   db.query(sql,(err,data)=>{
+//       if(err) return res.json(err);
+//       return res.json(data);
+//   })
+// })
+// app.get('/meal_orderinvoice/:orderId', (req, res) => {
+//   const orderId = req.params.orderId;
+//   const sql = 'SELECT * FROM meal_order WHERE Order_Id = ?';
+
+//   db.query(sql, [orderId], (err, data) => {
+//     if (err) {
+//       console.error('Error fetching order details:', err);
+//       res.status(500).json({ error: 'Internal Server Error' });
+//     } else {
+//       // Check if data is an array before sending the response
+//       if (Array.isArray(data)) {
+//         res.status(200).json(data);
+//       } else {
+//         console.error('Order details not an array:', data);
+//         res.status(500).json({ error: 'Internal Server Error' });
+//       }
+//     }
+//   });
+// });
+app.get('/meal_orderinvoice/:orderId', (req, res) => {
+  const orderId = req.params.orderId;
+  const sql = 'SELECT * FROM meal_order WHERE Order_Id = ?';
+
+  db.query(sql, [orderId], (err, data) => {
+    if (err) {
+      console.error('Error fetching order details:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      // Convert the data to an array of objects
+      const orderDetails = [];
+      for (const row of data) {
+        orderDetails.push({
+          Order_Id: row.Order_Id,
+          Selected_Item: row.Selected_Item,
+          Quantity: row.Quantity,
+          Unit_Price: row.Unit_Price,
+          Amount: row.Amount,
+        });
+      }
+
+      res.status(200).json(orderDetails);
+    }
+  });
+});
+
+
+
+
+
+
 
 
 // //For post method

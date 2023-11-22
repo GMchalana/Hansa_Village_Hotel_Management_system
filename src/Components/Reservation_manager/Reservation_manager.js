@@ -8,26 +8,46 @@ import './Reservation_manager.css';
 
 export default function Reservation_manager() {
 
-  const[values, setValues] =useState({
-    room_id: '',
+  const [formValues, setFormValues] = useState({
     charge: '',
     type: '',
-    add_image: '',
-   
-})
+    image: null,
+  });
 
-const handleChange=(event) =>{
-    setValues({...values,[event.target.name]:event.target.value})
-}
+  const handleInputChange = (e) => {
+    setFormValues({ ...formValues, [e.target.name]: e.target.value });
+  };
 
-const handleSubmit = (event) => {
-    event.preventDefault();
-    axios.post("http://localhost:8080/hansavillagehotel/add_room",values)
-    .then(res=>alert("Successfully add a room"))
-    .catch(err=>console.log(err));
+  const handleFileChange = (e) => {
+    setFormValues({ ...formValues, image: e.target.files[0] });
+  };
 
-    
-}
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append('charge', formValues.charge);
+    formData.append('type', formValues.type);
+    formData.append('image', formValues.image);
+
+    try {
+      const response = await axios.post(
+        'http://localhost:8080/submit_formr',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+
+      console.log(response.data);
+      alert('Form submitted successfully');
+    } catch (error) {
+      console.error(error);
+      alert('Error submitting form');
+    }
+  };
 
 
 
@@ -38,16 +58,7 @@ const handleSubmit = (event) => {
          <Nav/>
 
 <form className='formrm' onSubmit={handleSubmit}>
-<div>
-      <label className='lablerm'>Room ID:</label>
-      <input
-        type="text"
-        id="room_id"
-        name="room_id"
-        onChange={handleChange}
-        className='inputrm'
-      />
-    </div>
+
 
     <div>
       <label className='lablerm'>Charge per day:</label>
@@ -55,7 +66,7 @@ const handleSubmit = (event) => {
         type="text"
         id="charge"
         name="charge"
-        onChange={handleChange}
+        onChange={handleInputChange}
         className='inputrm'
       />
     </div>
@@ -66,7 +77,7 @@ const handleSubmit = (event) => {
         type="text"
         id="type"
         name="type"
-        onChange={handleChange}
+        onChange={handleInputChange}
         className='inputrm'
       />
     </div>
@@ -77,9 +88,9 @@ const handleSubmit = (event) => {
       <label className='lablerm'>Add Image:</label>
       <input
         type="file"
-        id="add_image"
-        name="add_image"
-        onChange={handleChange}
+        id="image"
+        name="image"
+        onChange={handleFileChange}
         className='inputrm'
       />
     </div>

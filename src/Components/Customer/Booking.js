@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Booking.css';
 import Nav from './Nav';
 import Popup_booking from './Popup_booking';
@@ -74,6 +74,14 @@ export default function Booking() {
 
   const [buttonPopup1, setButtonPopup1] = useState(false)
 
+  const[data,setData]=useState([])
+  useEffect(()=>{
+      fetch("http://localhost:8080/hansavillagehotel/add_room")
+      .then(res => res.json())
+      .then(data=>setData(data))
+      .catch(err => console.log(err));
+  },[])
+
 
   return (
     <div className='container'>
@@ -81,15 +89,15 @@ export default function Booking() {
       <br />
       <div className='head'>Rooms</div>
       <div className='Rooms'>
-        {contents.map((content, index) => (
+        {data.map((content, index) => (
           <div key={content.idR} onClick={() => setButtonPopup(true)}> 
-            <div onClick={() => setRoomValues({ ...roomValues, room_number: content.idR , room_type: content.type})}>
+            <div onClick={() => setRoomValues({ ...roomValues, room_number: content.Room_Id , room_type: content.Type})}>
               <Rooms
-                name={content.name}
+                id={content.Room_Id}
                 idR={content.idR}
-                type={content.type}
-                priceR={content.priceR}
-                imageR={content.imageR}
+                type={content.Type}
+                price={content.Charge_per_Day}
+                imageR={'http://localhost:8080/hansavillagehotel/'+ content.Image}
               />
             </div>
           </div>

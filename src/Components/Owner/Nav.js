@@ -59,6 +59,27 @@ function Nav() {
         doc.text(20, 50, "No data available");
       }
 
+      doc.setLineWidth(0.5);
+      doc.line(10, doc.internal.pageSize.height - 30, doc.internal.pageSize.width - 10, doc.internal.pageSize.height - 30);
+      // Add footer
+    //const totalPagesExp = "{total_pages_count_string}";
+    doc.setPage(doc.internal.getNumberOfPages());
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "bold");
+    doc.text("Address ", 10, doc.internal.pageSize.height - 20);
+    doc.setFont("helvetica", "normal");
+    doc.text("Hansa Village Hotel ", 13, doc.internal.pageSize.height - 15);
+    doc.text("Minuwangoda Road ", 13, doc.internal.pageSize.height - 10);
+    doc.text("Gampaha ", 13, doc.internal.pageSize.height - 5);
+
+    doc.setFont("helvetica", "bold");
+    doc.text("E Mail Address ", 140, doc.internal.pageSize.height - 20);
+    doc.setFont("helvetica", "normal");
+    doc.text("hansavillagehotel@gmail.com", 143, doc.internal.pageSize.height - 15);
+   
+
+
+
       doc.save("Sales_Report.pdf");
     } catch (error) {
       console.error("Error generating PDF:", error);
@@ -109,6 +130,26 @@ function Nav() {
         // Handle case where there is no data
         doc.text(20, 50, "No data available");
       }
+
+
+      doc.setLineWidth(0.5);
+      doc.line(10, doc.internal.pageSize.height - 30, doc.internal.pageSize.width - 10, doc.internal.pageSize.height - 30);
+      // Add footer
+    //const totalPagesExp = "{total_pages_count_string}";
+    doc.setPage(doc.internal.getNumberOfPages());
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "bold");
+    doc.text("Address ", 10, doc.internal.pageSize.height - 20);
+    doc.setFont("helvetica", "normal");
+    doc.text("Hansa Village Hotel ", 13, doc.internal.pageSize.height - 15);
+    doc.text("Minuwangoda Road ", 13, doc.internal.pageSize.height - 10);
+    doc.text("Gampaha ", 13, doc.internal.pageSize.height - 5);
+
+    doc.setFont("helvetica", "bold");
+    doc.text("E Mail Address ", 140, doc.internal.pageSize.height - 20);
+    doc.setFont("helvetica", "normal");
+    doc.text("hansavillagehotel@gmail.com", 143, doc.internal.pageSize.height - 15);
+
 
       doc.save("Hall_Utilization_Report.pdf");
     } catch (error) {
@@ -163,6 +204,23 @@ function Nav() {
         // Handle case where there is no data
         doc.text(20, 50, "No data available");
       }
+      doc.setLineWidth(0.5);
+      doc.line(10, doc.internal.pageSize.height - 30, doc.internal.pageSize.width - 10, doc.internal.pageSize.height - 30);
+      // Add footer
+    //const totalPagesExp = "{total_pages_count_string}";
+    doc.setPage(doc.internal.getNumberOfPages());
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "bold");
+    doc.text("Address ", 10, doc.internal.pageSize.height - 20);
+    doc.setFont("helvetica", "normal");
+    doc.text("Hansa Village Hotel ", 13, doc.internal.pageSize.height - 15);
+    doc.text("Minuwangoda Road ", 13, doc.internal.pageSize.height - 10);
+    doc.text("Gampaha ", 13, doc.internal.pageSize.height - 5);
+
+    doc.setFont("helvetica", "bold");
+    doc.text("E Mail Address ", 140, doc.internal.pageSize.height - 20);
+    doc.setFont("helvetica", "normal");
+    doc.text("hansavillagehotel@gmail.com", 143, doc.internal.pageSize.height - 15);
 
       doc.save("Room_Utilization_Report.pdf");
     } catch (error) {
@@ -177,9 +235,9 @@ function Nav() {
         <img className="nav_logo" src={nav_logo} alt="Form" />
       </div>
       <nav className="txt3">
-        <a href="/InventoryManager/InventoryDetails">Inventory Details</a>
-        <a href="/InventoryManager/PurchaseInventory">Purchase Inventory</a>
-        <a href="/InventoryManager/UsedInventory">Used Inventory</a>
+        <a href="/Owner/CustomerDetails">Customer Details</a>
+        <a href="/Owner/Inventory">Inventory</a>
+        
         <img
           className="download"
           onClick={() => setButtonPopup(true)}
