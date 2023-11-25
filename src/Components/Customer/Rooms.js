@@ -7,7 +7,7 @@ export function Rooms(props){
                 <img src={props.imageR} alt='Room.img' className='RoomImage'></img>
                 <div className='RoomCard_Content'></div>
                 <div className='RoomID'>Room ID:{props.id}</div>
-                {/* <div className='Availability'>Availability:{props.availability}</div> */}
+                <div className='Availability'>Availability:{props.Availability}</div>
                 <div className='Type'>Type:{props.type}</div>
                 <div className='RoomPrice'>Charge per hours:Rs{props.price}</div>
             </div>

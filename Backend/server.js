@@ -460,7 +460,7 @@ app.post('/hansavillagehotel/meal_ordercus',async (req, res) => {
 
 
 app.post('/hansavillagehotel/room_booking',async (req,res)=>{
-    const sql2 = "INSERT INTO room_booking (Num_of_Guests, Room_Number, Arrival_Date_Time, Duration, Customer_Id, Room_Type ) VALUES (?, ?, ?, ?, ?, ?)";
+    const sql2 = "INSERT INTO room_booking (Num_of_Guests, Room_Number, Arrival_Date_Time, Duration, Customer_Id, Room_Type, Status ) VALUES (?, ?, ?, ?, ?, ?, ?)";
     const Values=[
         req.body.number_of_guest,
         req.body.room_number,
@@ -468,6 +468,7 @@ app.post('/hansavillagehotel/room_booking',async (req,res)=>{
         req.body.duration,
         req.body.customer_id,
         req.body.room_type,
+        "Booked",
     ];
     db.query(sql2,Values,(err,data)=>{
         if (err) {
@@ -592,10 +593,60 @@ app.get('/generate-pdf', async (req, res) => {
 
 
 
+app.get('/booking',(req,res)=>{
+  const sql = "SELECT * FROM room_booking";
+  db.query(sql,(err,data)=>{
+      if(err) return res.json(err);
+      return res.json(data);
+  })
+})
 
 
+app.post('/updateRoomStatus', (req, res) => {
+  // Get the meal order ID and new status from the request
+  const { orderId} = req.body;
+
+  // Update the status in your database (you may need a database connection and SQL query here)
+  // Example using a placeholder for the database update:
+  db.query("UPDATE add_room SET Availability = 'No' WHERE Room_Id = ?", [ orderId], (err, result) => {
+  if (err) {
+      res.status(500).json({ error: 'Error updating order status' });
+     } else {
+       res.status(200).json({ message: 'Order status updated successfully' });
+    }
+   });
+});
+
+app.post('/updateRoomStatusYes', (req, res) => {
+  // Get the meal order ID and new status from the request
+  const { orderId} = req.body;
+
+  // Update the status in your database (you may need a database connection and SQL query here)
+  // Example using a placeholder for the database update:
+  db.query("UPDATE add_room SET Availability = 'Yes' WHERE Room_Id = ?", [ orderId], (err, result) => {
+  if (err) {
+      res.status(500).json({ error: 'Error updating order status' });
+     } else {
+       res.status(200).json({ message: 'Order status updated successfully' });
+    }
+   });
+});
 
 
+app.post('/updateRoomStatus2', (req, res) => {
+  // Get the meal order ID and new status from the request
+  const { orderId} = req.body;
+
+  // Update the status in your database (you may need a database connection and SQL query here)
+  // Example using a placeholder for the database update:
+  db.query("UPDATE room_booking SET Status = 'Book Closed' WHERE Book_Id = ?", [ orderId], (err, result) => {
+  if (err) {
+      res.status(500).json({ error: 'Error updating order status' });
+     } else {
+       res.status(200).json({ message: 'Order status updated successfully' });
+    }
+   });
+});
 
 
 app.listen(8080,()=>{

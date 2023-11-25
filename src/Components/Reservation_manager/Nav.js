@@ -2,12 +2,14 @@
 
 import React, { useState } from "react";
 import nav_logo from "../Images/nav_logo.jpeg";
-import download from "../Images/download.png";
+import download from "../Images/downloadwhite.png";
 import "./Nav.css";
 import Popup_reports from "./Popup_reports";
 import jsPDF from "jspdf";
 import logo from '../Images/logo.jpeg';
 import "jspdf-autotable";
+import logout from "../Images/logout.png";
+import {useNavigate} from "react-router-dom";
 
 async function fetchInventoryDetails() {
   try {
@@ -206,7 +208,7 @@ function Nav() {
     }
   }
 
-
+  let navigate= useNavigate();
   return (
     <header>
       <div>
@@ -214,12 +216,19 @@ function Nav() {
       </div>
       <nav className="txt3">
         <a href="/ReservationManager/Reservations">Add Room</a>
+        <a href="/ReservationManager/Addhall">Booking Details</a>
         
         
         <img
           className="download"
           onClick={() => setButtonPopup(true)}
           src={download}
+          alt="Form"
+        />
+        <img
+          className="logout"
+          onClick={()=>{navigate("/")}}
+          src={logout}
           alt="Form"
         />
         <Popup_reports trigger={buttonPopup} setTrigger={setButtonPopup} className='popup'>

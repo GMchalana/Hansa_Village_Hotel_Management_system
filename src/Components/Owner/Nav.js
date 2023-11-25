@@ -1,9 +1,10 @@
 // Nav.js
-
+import {useNavigate} from "react-router-dom";
 import React, { useState } from "react";
 import nav_logo from "../Images/nav_logo.jpeg";
-import download from "../Images/download.png";
-import "./Nav.css";
+import download from "../Images/downloadwhite.png";
+import logout from "../Images/logout.png";
+import "./NavO.css";
 import Popup_reports from "./Popup_reports";
 import jsPDF from "jspdf";
 import logo from '../Images/logo.jpeg';
@@ -228,7 +229,7 @@ function Nav() {
     }
   }
 
-
+  let navigate= useNavigate();
   return (
     <header>
       <div>
@@ -244,6 +245,15 @@ function Nav() {
           src={download}
           alt="Form"
         />
+        <img
+          className="logout"
+          onClick={()=>{navigate("/")}}
+          src={logout}
+          alt="Form"
+        />
+        
+          
+        
         <Popup_reports trigger={buttonPopup} setTrigger={setButtonPopup} className='popup'>
           <input
             type="submit"

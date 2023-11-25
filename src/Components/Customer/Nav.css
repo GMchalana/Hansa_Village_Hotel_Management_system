@@ -6,7 +6,7 @@
 }
 
 :root {
-	--mainColor: #e1e4f1;
+	--mainColor: #05191f;
 	--mainColorLight: #5767aa;
 	--secondaryColor: #db2b39;
 	--textColor: #000000;
@@ -33,13 +33,14 @@ nav a:hover {
 }
 
 .nav_logo{
-    height: 55px;
+    height: 75px;
     width: auto;
     border-radius: 10px;
 }
 
 .txt1{
 	font-size: 20px;
+	color: aliceblue;
 }
 
 .nav-link {

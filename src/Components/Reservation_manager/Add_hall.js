@@ -4,44 +4,90 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 export default function Add_hall() {
-  const [cardsData, setCardsData] = useState([]);
 
-  useEffect(() => {
-    axios.get('http://localhost:8080/meals')
-      .then((response) => {
-        setCardsData(response.data);
+  const[data,setData]=useState([])
+    useEffect(()=>{
+        fetch("http://localhost:8080/booking")
+        .then(res => res.json())
+        .then(data=>setData(data))
+        .catch(err => console.log(err));
+    },[])
+
+    const updateStatus = (orderId) => {
+      fetch(`http://localhost:8080/updateRoomStatusYes`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ orderId }),
       })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-      });
-  }, []);
+        .then((res) => {
+          if (res.status === 200) {
+            alert('Successfully updated the database');
+          } else {
+            console.error('Error updating order status:', res.statusText);
+          }
+        })
+        .catch((err) => console.error('Error updating order status:', err));
+    };
 
-  const arrayBufferToBase64 = (buffer) => {
-    let binary = '';
-    const bytes = new Uint8Array(buffer);
-    bytes.forEach((byte) => {
-      binary += String.fromCharCode(byte);
-    });
-    return btoa(binary);
-  };
-
-  console.log('cardsData:', cardsData);
+    const updateStatus2 = (orderId) => {
+      fetch(`http://localhost:8080/updateRoomStatus2`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ orderId }),
+      })
+        .then((res) => {
+          if (res.status === 200) {
+            alert('Successfully updated the database');
+          } else {
+            console.error('Error updating order status:', res.statusText);
+          }
+        })
+        .catch((err) => console.error('Error updating order status:', err));
+    };
+  
+  
 
   return (
     <div>
       <Nav />
-      <div className='card-container'>
-        {cardsData.map((card, index) => (
-          <div className='card' key={index}>
-            <h2>{card.Name}</h2>
-            <p>{card.Size}</p>
-            <img
-              src={`data:image/png;base64,${arrayBufferToBase64(card.Image.data)}`}
-              alt="Meal"
-            />
-          </div>
-        ))}
-      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Book ID</th>
+            <th>Number of guests</th>
+            <th>Room Number</th>
+            <th>Date</th>
+            <th>Customer ID</th>
+            <th>Room Type</th>
+            <th>Action</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+                {data.map((d,i) =>
+                (
+                    <tr key={i}>
+                        <td>{d.Book_Id }</td>
+                        <td>{d.Num_of_Guests}</td>
+                        <td>{d.Room_Number}</td>
+                        <td>{d.Arrival_Date_Time}</td>
+                        <td>{d.Customer_Id}</td>
+                        <td>{d.Room_Type}</td>
+                        <td><button className="but" onClick={() => {updateStatus(d.Room_Number);updateStatus2(d.Book_Id);}}>finish</button></td>
+                        <td>{d.Status}</td>
+                        
+                        
+                    </tr>
+                ))}
+            </tbody>
+
+
+      </table>
     </div>
   );
 }

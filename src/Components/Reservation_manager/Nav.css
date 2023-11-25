@@ -1,39 +1,51 @@
-nav a {
-	margin: 0 1rem;
-	color: var(--textColor);
-	text-decoration: none;
-}
+/* Nav.css */
 
-nav a:hover {
-	color: var(--secondaryColor);
-}
-
-.nav_logo{
-    height: 55px;
-    width: auto;
-    border-radius: 10px;
-}
-
-.download{
-    height: 20px;
-    width: auto;
-}
-
-.report_btn{
-    border-radius: 30px;
-    width: 200px;
-    height: 45px;
-    background-color: #191919;
-    color: #fbfbfb;
-    text-align: center;
-    font-family: Inter;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    
-}
-
-.txt5{
+header {
+    background-color: #252525;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .nav_logo {
+    width: 50px; /* Adjust the size as needed */
+    height: 50px; /* Adjust the size as needed */
+  }
+  
+  .txt3 {
+    display: flex;
+  }
+  
+  .txt3 a {
+    color: #ffffff;
+    text-decoration: none;
+    margin: 0 15px;
     font-size: 20px;
+    font-weight: bold;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  .txt3 a:hover {
+    color: #ffae42; /* Change the color on hover */
+  }
+  
+  /* Additional styles for responsiveness (optional) */
+  @media (max-width: 768px) {
+    .txt3 {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .txt3 a {
+      margin: 10px 0;
+    }
+  }
+
+  .download,
+.logout {
+  height: 24px;
+  width: auto;
+  margin-right: 8px;
 }
+

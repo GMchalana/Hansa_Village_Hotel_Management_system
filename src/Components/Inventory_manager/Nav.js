@@ -8,6 +8,8 @@ import Popup_reports from "./Popup_reports";
 import jsPDF from "jspdf";
 import logo from '../Images/logo.jpeg';
 import "jspdf-autotable";
+import logout from "../Images/logout.png";
+import {useNavigate} from "react-router-dom";
 
 async function fetchInventoryDetails() {
   try {
@@ -62,7 +64,7 @@ function Nav() {
       console.error("Error generating PDF:", error);
     }
   }
-
+  let navigate= useNavigate();
   return (
     <header>
       <div>
@@ -72,6 +74,12 @@ function Nav() {
         <a href="/InventoryManager/InventoryDetails">Inventory Details</a>
         <a href="/InventoryManager/PurchaseInventory">Purchase Inventory</a>
         <a href="/InventoryManager/UsedInventory">Used Inventory</a>
+        <img
+          className="logout"
+          onClick={()=>{navigate("/")}}
+          src={logout}
+          alt="Form"
+        />
         {/* <img
           className="download"
           onClick={() => setButtonPopup(true)}

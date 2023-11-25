@@ -3,6 +3,7 @@ import Nav from './Nav';
 import jsPDF from 'jspdf';
 import logo from '../Images/logo.jpeg';
 import 'jspdf-autotable';
+import './Available_orders.css'
 
 export default function Available_orders() {
   const [data, setData] = useState([]);
@@ -69,6 +70,8 @@ export default function Available_orders() {
         doc.text(20, 50, 'No data available');
       }
 
+      doc.setFont('Helvetica-Oblique', 'bold');
+      doc.text('Thank You...! Come Again..', 13, doc.internal.pageSize.height - 50);
       doc.setLineWidth(0.5);
       doc.line(10, doc.internal.pageSize.height - 30, doc.internal.pageSize.width - 10, doc.internal.pageSize.height - 30);
 
@@ -114,7 +117,7 @@ export default function Available_orders() {
               <td>{d.Full_Name}</td>
               <td>{d.Mobile_Number}</td>
               <td><button onClick={() => pdfGeneratorHall(d.Order_Id)}>View details</button></td>
-              <td><button onClick={() => updateStatus(d.Order_Id)}>Complete</button></td>
+              <td><button className="but" onClick={() => updateStatus(d.Order_Id)}>Complete</button></td>
               <td>{d.Status}</td>
             </tr>
           ))}

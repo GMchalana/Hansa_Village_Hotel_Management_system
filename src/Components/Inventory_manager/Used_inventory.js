@@ -61,6 +61,8 @@ export default function Used_inventory() {
               <option value="carrot">Carrot</option>
               <option value="chili">Chili</option>
               <option value="karapincha">Karapincha</option>
+              <option value="Samba Rice">Samba Rice</option>
+              <option value="salt">salt</option>
             </select>
           </div>
           

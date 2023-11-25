@@ -16,6 +16,7 @@ export default function Booking() {
     date_and_time: '',
     duration: '',
     room_type:'',
+    Availability:'',
   });
 
   const [hallValues, setHallValues] = useState({
@@ -27,6 +28,27 @@ export default function Booking() {
     
   });
 
+  const orderId = roomValues.room_number;
+
+  const updateStatus = (orderId) => {
+    fetch(`http://localhost:8080/updateRoomStatus`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ orderId }),
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          alert('Successfully updated the database');
+        } else {
+          console.error('Error updating order status:', res.statusText);
+        }
+      })
+      .catch((err) => console.error('Error updating order status:', err));
+  };
+
+  
   const handleRoomChange = (event) => {
     setRoomValues({ ...roomValues, [event.target.name]: event.target.value });
   };
@@ -91,11 +113,12 @@ export default function Booking() {
       <div className='Rooms'>
         {data.map((content, index) => (
           <div key={content.idR} onClick={() => setButtonPopup(true)}> 
-            <div onClick={() => setRoomValues({ ...roomValues, room_number: content.Room_Id , room_type: content.Type})}>
+            <div onClick={() => setRoomValues({ ...roomValues, room_number: content.Room_Id , room_type: content.Type, Availability:content.Availability})}>
               <Rooms
                 id={content.Room_Id}
                 idR={content.idR}
                 type={content.Type}
+                Availability={content.Availability}
                 price={content.Charge_per_Day}
                 imageR={'http://localhost:8080/hansavillagehotel/'+ content.Image}
               />
@@ -180,7 +203,7 @@ export default function Booking() {
               className='inputb'
             />
           </div>
-          <button className='butb' type='submit'>
+          <button className='butb' type='submit' onClick={() => updateStatus(orderId)}>
             Submit
           </button>
         </form>
