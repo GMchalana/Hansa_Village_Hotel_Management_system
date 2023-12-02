@@ -36,7 +36,7 @@ export default function Signup() {
         }
          
         else{
-        axios.post("http://localhost:8080/hansavillagehotel/signup",values)
+        axios.post("http://localhost:8080/hansavillagehotel/signu",values)
         .then(res=>alert("Successfully Registered"))
         .then(res=>navigate('/'))
         .catch(err=>console.log(err));

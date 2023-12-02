@@ -1,6 +1,3 @@
-// import multer from 'multer';
-// import path from 'path';
-
 const express = require('express');
 const mysql = require('mysql')
 const cors = require('cors')
@@ -11,16 +8,12 @@ const http = require('http');
 const multer = require('multer');
 const path = require('path');
 const crypto = require('crypto');
-
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.static('uploads'));
-
-
-//new
-
 app.use(express.urlencoded({ extended: true }));
 
 const db =mysql.createConnection({
@@ -30,21 +23,12 @@ const db =mysql.createConnection({
     database:'hansavillagehotel'
 })
 
-// const pool = mysql.createPool({
-//     host: 'localhost',
-//     user: 'root',
-//     password: '',
-//     database: 'hansavillagehotel'
-//   });
-  
+
+
 
 app.get('/',(re,res)=>{
     return res.json("this is Back");
 })
-
-
-
-
 
 
 
@@ -99,6 +83,7 @@ const storage = multer.diskStorage({
 
 
 
+//show meal items for the customer
   app.get('/hansavillagehotel/add_meals', (req, res) => {
     const sql='SELECT * FROM add_meals';
     db.query(sql,(err, data)=>{
@@ -108,9 +93,6 @@ const storage = multer.diskStorage({
   })
 
   
-
-
-
 
 
   //Backend part for uploadding ROOm item
@@ -140,11 +122,11 @@ const storage = multer.diskStorage({
 
   app.post('/submit_formr', uploadr.single('image'), (req, res) => {
     try {
-      const { charge, type} = req.body;
+      const { charge, type, category} = req.body;
       const imagePath = req.file ? `uploadsr/${req.file.filename}` : null;
   
-      const sql = 'INSERT INTO add_room (Charge_per_Day, Type, Image) VALUES (?, ?, ?)';
-      const values = [charge, type, imagePath];
+      const sql = 'INSERT INTO add_room (Charge_per_Day, Type, Image, Category, Availability) VALUES (?, ?, ?, ?,  "Yes")';
+      const values = [charge, type, imagePath, category];
   
       db.query(sql, values, (err, result) => {
         if (err) {
@@ -161,6 +143,8 @@ const storage = multer.diskStorage({
   });
 
 
+
+
   //Getting Room Item
   app.get('/hansavillagehotel/add_room', (req, res) => {
     const sql='SELECT * FROM add_room';
@@ -173,6 +157,7 @@ const storage = multer.diskStorage({
 
 
 
+//customer details
 app.get('/signup',(req,res)=>{
     const sql = "SELECT * FROM signup";
     db.query(sql,(err,data)=>{
@@ -181,6 +166,10 @@ app.get('/signup',(req,res)=>{
     })
 })
 
+
+
+
+//inventory details
 app.get('/inventoty_details',(req,res)=>{
     const sql = "SELECT * FROM inventoty_details";
     db.query(sql,(err,data)=>{
@@ -188,6 +177,7 @@ app.get('/inventoty_details',(req,res)=>{
         return res.json(data);
     })
 })
+
 
 
 
@@ -201,6 +191,10 @@ app.get('/meals',(req,res)=>{
     })
 })
 
+
+
+
+//hall booking details
 app.get('/hall',(req,res)=>{
     
   const sql = "SELECT * FROM hall_booking";
@@ -210,6 +204,10 @@ app.get('/hall',(req,res)=>{
   })
 })
 
+
+
+
+//Room booking details
 app.get('/room',(req,res)=>{
     
   const sql = "SELECT * FROM room_booking";
@@ -222,7 +220,7 @@ app.get('/room',(req,res)=>{
 
 
 
-
+//meal order details
 app.get('/meal_order',(req,res)=>{
     const sql = "SELECT * FROM meal_order";
     db.query(sql,(err,data)=>{
@@ -231,33 +229,19 @@ app.get('/meal_order',(req,res)=>{
     })
 })
 
-// app.get('/meal_orderinvoice',(req,res)=>{
-//   const sql = "SELECT * FROM meal_order WHERE Order_Id=?";
-//   const Values=[req.body.Order_Id]
-//   db.query(sql,(err,data)=>{
-//       if(err) return res.json(err);
-//       return res.json(data);
-//   })
-// })
-// app.get('/meal_orderinvoice/:orderId', (req, res) => {
-//   const orderId = req.params.orderId;
-//   const sql = 'SELECT * FROM meal_order WHERE Order_Id = ?';
+app.get('/hansavillagehotel/hall_status',(req,res)=>{
+  const sql = "SELECT * FROM hall_availability";
+  db.query(sql,(err,data)=>{
+      if(err) return res.json(err);
+      return res.json(data);
+  })
+})
 
-//   db.query(sql, [orderId], (err, data) => {
-//     if (err) {
-//       console.error('Error fetching order details:', err);
-//       res.status(500).json({ error: 'Internal Server Error' });
-//     } else {
-//       // Check if data is an array before sending the response
-//       if (Array.isArray(data)) {
-//         res.status(200).json(data);
-//       } else {
-//         console.error('Order details not an array:', data);
-//         res.status(500).json({ error: 'Internal Server Error' });
-//       }
-//     }
-//   });
-// });
+
+
+
+
+//Meal order invoice part
 app.get('/meal_orderinvoice/:orderId', (req, res) => {
   const orderId = req.params.orderId;
   const sql = 'SELECT * FROM meal_order WHERE Order_Id = ?';
@@ -287,71 +271,39 @@ app.get('/meal_orderinvoice/:orderId', (req, res) => {
 
 
 
+//Customer sign up
+app.post('/hansavillagehotel/signu',(req,res)=>{
+  const sql = "INSERT INTO signup (`Full_Name`, `User_Name`, `Mobile_Number`, `Address`, `Password`) VALUES (?)";
+  const Values=[
+      req.body.full_name,
+      req.body.user_name,
+      req.body.mobile_number,
+      req.body.address,
+      req.body.password,
+  ];
 
-
-
-
-// //For post method
-// app.post('/hansavillagehotel/signup',(req,res)=>{
-//     const sql = "INSERT INTO signup (Full_Name, User_Name, Mobile_Number, Address, Password) VALUES (?)";
-//     const Values=[
-//         req.body.full_name,
-//         req.body.user_name,
-//         req.body.mobile_number,
-//         req.body.address,
-//         req.body.password,
-//     ];
-
-    
-//     db.query(sql,[Values],(err,data)=>{
-//         if(err) return res.json(err);
-//         return res.json(data);
-//     })
-// })
-
-
-
-
-// After the test please untag this part
-
-// app.post('/hansavillagehotel/add_meals',(req,res)=>{
-//     const sql1 = "INSERT INTO add_meals (Name, Size, Price, Image) VALUES (?)";
-//     const Values=[
-//         req.body.meal_name,
-//         req.body.size,
-//         req.body.price,
-//         req.body.add_image,
-//     ];
-
-    
-//     db.query(sql1,[Values],(err,data)=>{
-//         if(err) return res.json(err);
-//         return res.json(data);
-//     })
-// })
+  
+  db.query(sql,[Values],(err,data)=>{
+    if (err) {
+      console.error("Error:", err); // Log the error for debugging
+      return res.status(500).json({ error: "An error occurred" }); // Return an error response with a meaningful message
+  }
+  return res.status(200).json(data);
+    });
+});
 
 
 
 
 
 
-
-
-
-
-
-
-
-
+//Purchase inventory part
   app.post('/update-inventory', (req, res) => {
     const { product_name, quantity, date_of_purchase } = req.body;
 
     const sql = 'UPDATE  inventoty_details SET Available_Quentity = (Available_Quentity +(?)), Date_of_Purchase=? WHERE Product_Name  = ?';
     const values = [quantity, date_of_purchase, product_name ,/* other values */, /* id */];
   
-    // Retrieve the current available quantity from the database
-    // Add the input quantity to the current quantity
-    // Update the database with the new quantity
     db.query(sql, values, (error, result) => {
         if (error) {
           console.error('Error updating data:', error);
@@ -365,6 +317,8 @@ app.get('/meal_orderinvoice/:orderId', (req, res) => {
   });
   
   
+
+  //used inventory part
 app.post('/inventoty_details/get', (req, res) => {
      const { product_name, quantity, /* other fields */ } = req.body;
   
@@ -480,12 +434,39 @@ app.post('/hansavillagehotel/room_booking',async (req,res)=>{
 });
 
 
+app.post('/updateBookingStatus', (req, res) => {
+  // Get the meal order ID and new status from the request
 
+  // Update the status in your database (you may need a database connection and SQL query here)
+  // Example using a placeholder for the database update:
+  db.query("UPDATE hall_availability SET Availability = 'No' ", (err, result) => {
+  if (err) {
+      res.status(500).json({ error: 'Error updating order status' });
+     } else {
+       res.status(200).json({ message: 'book status updated successfully' });
+    }
+   });
+});
+
+app.post('/updateBookingStatusYes', (req, res) => {
+  // Get the meal order ID and new status from the request
+
+  // Update the status in your database (you may need a database connection and SQL query here)
+  // Example using a placeholder for the database update:
+  db.query("UPDATE hall_availability SET Availability = 'Yes' ", (err, result) => {
+  if (err) {
+      res.status(500).json({ error: 'Error updating order status' });
+     } else {
+       res.status(200).json({ message: 'book status updated successfully' });
+    }
+   });
+});
 
 
 
 app.post('/hansavillagehotel/hall_booking',async (req,res)=>{
-    const sql2 = "INSERT INTO hall_booking (Event_Detail, Planning_Date, Num_of_Guests, Customer_Id, Decorations ) VALUES (?, ?, ?, ?, ?)";
+    const sql2 = "INSERT INTO hall_booking (Event_Detail, Planning_Date, Num_of_Guests, Customer_Id, Decorations) VALUES (?, ?, ?, ?, ?)";
+    
     const values=[
         req.body.details,
         req.body.date_and_time,
@@ -517,16 +498,55 @@ app.post('/hansavillagehotel', (req,res)=>{
         }
         if(data.length>0){
             const user_type = data[0].user_type;
-            if(user_type==='owner'){
-                return res.json("owner");
-            }else if(user_type==='kitchen manager'){
-                return res.json("kitchen_manager");
-            }else if(user_type==='inventory manager'){
-                return res.json("inventory_manager")
-            }else if(user_type==='reservation manager'){
-                return res.json("reservation_manager")
-            }else{
-                return res.json("customer")
+            if(user_type==='owner')
+            {
+              res.json({
+                success:true,
+                data:{
+                  role:"owner",
+                  otherDetails:data
+                }
+              });
+                // return res.json("owner");
+            }else if(user_type==='kitchen manager')
+            {
+              res.json({
+                success:true,
+                data:{
+                  role:"kitchen_manager",
+                  otherDetails:data
+                }
+              });
+            }
+            else if(user_type==='inventory manager')
+            {
+              res.json({
+                success:true,
+                data:{
+                  role:"inventory_manager",
+                  otherDetails:data
+                }
+              });
+            }
+            else if(user_type==='reservation manager')
+            {
+              res.json({
+                success:true,
+                data:{
+                  role:"reservation_manager",
+                  otherDetails:data
+                }
+              });
+            }
+            else{
+              res.json({
+                success:true,
+                data:{
+                  role:"customer",
+                  otherDetails:data
+                }
+              });
+                // return res.json("customer")
             }
             //return res.json("Success");
         }else{
@@ -570,26 +590,6 @@ app.get('/generate-pdf', async (req, res) => {
     }
   });
 
-
-
-
-
-//Ravin new signup part
-  app.post('/hansavillagehotel/newsign',(req,res)=>{
-    const sql = "INSERT INTO newsign (name, email, password) VALUES (?)";
-    const Values=[
-        req.body.name,
-        req.body.email,
-        req.body.password,
-        
-    ];
-
-    
-    db.query(sql,[Values],(err,data)=>{
-        if(err) return res.json(err);
-        return res.json(data);
-    })
-})
 
 
 
@@ -647,6 +647,54 @@ app.post('/updateRoomStatus2', (req, res) => {
     }
    });
 });
+
+
+
+
+
+
+
+// In your backend route or controller
+app.get('/get-product-names', async (req, res) => {
+  try {
+    // Fetch product names from the database
+    const productNames = await ProductModel.find({}, 'Product_Name');
+    const names = productNames.map(product => product.Product_Name);
+    res.json({ success: true, data: names });
+  } catch (error) {
+    console.error('Error fetching product names:', error);
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
+  }
+});
+
+
+
+
+
+app.post('/hansavillagehotel/addinventory',(req,res)=>{
+  const sql = "INSERT INTO inventoty_details (Product_Name, Product_Category, Supplier_Name, Supplier_Id, Purchase_Price, Lead_Time, Supplier_Contact_Number) VALUES (?)";
+  const Values=[
+      req.body.product_name,
+      req.body.product_category,
+      req.body.supplier_name,
+      req.body.supplier_id,
+      req.body.purchase_price,
+      req.body.lead_time,
+      req.body.sup_con,
+  ];
+
+  
+  db.query(sql,[Values],(err,data)=>{
+    if (err) {
+      console.error("Error:", err); // Log the error for debugging
+      return res.status(500).json({ error: "An error occurred" }); // Return an error response with a meaningful message
+  }
+  return res.status(200).json(data);
+    });
+});
+
+
+
 
 
 app.listen(8080,()=>{

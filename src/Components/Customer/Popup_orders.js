@@ -11,18 +11,12 @@ function Popup_orders(props) {
     <div className='popup'>
    
         <div className='popup_inner'>
-        <br/>
-        <br/><br/><br/><br/><br/><br/>
-      <br/>
-    
-      
-          
           <div className='new'>
           
           
             <button className='close_btn' onClick={() => props.setTrigger(false)}>Close</button>
             </div>
-            <br/><br/><br/><br/><br/><br/>
+            <br/><br/><br/><br/><br/>
       <br/>
             {props.children}
             

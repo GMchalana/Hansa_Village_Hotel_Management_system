@@ -24,15 +24,23 @@ function Login() {
         //if(errors.User_Name ==="" && errors.password === ""){
             axios.post("http://localhost:8080/hansavillagehotel", values)
             .then(res => {
-                if(res.data === "customer"){
+                console.log(res.data.data.otherDetails[0]['Full_Name']);
+                if(res.data.success){
+                    localStorage.setItem('userRole', res.data.data.role);
+                    localStorage.setItem('userId', res.data.data.otherDetails[0]['User_Id']);
+                    localStorage.setItem('userName', res.data.data.otherDetails[0]['Full_Name']);
+                    localStorage.setItem('userMobile', res.data.data.otherDetails[0]['Mobile_Number']);
+                }
+
+                if(res.data.data.role === "customer"){
                     navigate('/CustomerHome');
-                }else if(res.data === "owner"){
+                }else if(res.data.data.role === "owner"){
                     navigate('/Owner/CustomerDetails')
-                }else if(res.data === "kitchen_manager"){
+                }else if(res.data.data.role === "kitchen_manager"){
                     navigate('/KitchenManager/AvailableOrders')
-                }else if(res.data === "inventory_manager"){
+                }else if(res.data.data.role === "inventory_manager"){
                     navigate('/InventoryManager/InventoryDetails')
-                }else if(res.data === "reservation_manager"){
+                }else if(res.data.data.role === "reservation_manager"){
                     navigate('/ReservationManager/Reservations')
                 }
                 else{

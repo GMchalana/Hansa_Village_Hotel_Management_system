@@ -8,6 +8,12 @@ import { Product } from './Product';
 import contents from './Content';
 
 export default function Orders() {
+
+  const [selectedCardName, setSelectedCardName] = useState('');
+  const [selectedCardPrice, setSelectedCardPrice] = useState('');
+  // console.log("jjj"+selectedCardName);
+
+
   const [values, setValues] = useState({
     item: '',
     quantity: '',
@@ -15,13 +21,12 @@ export default function Orders() {
     order_type: 'Take Away', // Set default value
     required_time: '',
     table_number: '',
-    customer_name:'',
-    customer_id:'',
-    mobile_number:'',
+    customer_name: localStorage.getItem('userName'),
+    customer_id: localStorage.getItem('userId'),
+    mobile_number: localStorage.getItem('userMobile'),
   });
 
-  const [selectedCardName, setSelectedCardName] = useState('');
-  const [selectedCardPrice, setSelectedCardPrice] = useState('');
+  
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -49,11 +54,6 @@ export default function Orders() {
   const [buttonPopup, setButtonPopup] = useState(false)
 
 
-
-
-
-
-
   const[data,setData]=useState([])
   useEffect(()=>{
       fetch("http://localhost:8080/hansavillagehotel/add_meals")
@@ -71,9 +71,20 @@ export default function Orders() {
         {data.map((contents, index) =>(
           <div
           onClick={() => {
+            // console.log(contents.Name);
             setSelectedCardName(contents.Name);
             setSelectedCardPrice(contents.Price); // Set the selected card's name
+            setValues({
+              ...values,
+              item: contents.Name,
+              unit_price: contents.Price,
+            });
+            // setValues({
+            //   ...values,
+            //   unit_price: contents.Price,
+            // });
             setButtonPopup(true);
+            
           }}
           key={index}
         >
@@ -104,6 +115,7 @@ export default function Orders() {
                 onChange={handleChange}
                 className='inputo'
                 value={selectedCardName}
+               
               />
             </div>
             <div>
@@ -143,7 +155,7 @@ export default function Orders() {
               </select>
             </div>
             <div>
-              <label className='labelo'>Required Time:</label>
+              <label className='labelo'>Waiting Time:</label>
               <input
                 type='text'
                 id='required_time'
@@ -152,49 +164,9 @@ export default function Orders() {
                 className='inputo'
               />
             </div>
-            <div>
-              <label className='labelo'>Table Number (If Dine-in):</label>
-              <input
-                type='text'
-                id='table_number'
-                name='table_number'
-                onChange={handleChange}
-                className='inputo'
-              />
-            </div>
+            
 
-            <div>
-              <label className='labelo'>Customer Name (If Dine-in):</label>
-              <input
-                type='text'
-                id='customer_name'
-                name='customer_name'
-                onChange={handleChange}
-                className='inputo'
-              />
-            </div>
-
-            <div>
-              <label className='labelo'>Customer ID (If Dine-in):</label>
-              <input
-                type='text'
-                id='customer_id'
-                name='customer_id'
-                onChange={handleChange}
-                className='inputo'
-              />
-            </div>
-
-            <div>
-              <label className='labelo'>Mobile Number (If Dine-in):</label>
-              <input
-                type='text'
-                id='mobile_number'
-                name='mobile_number'
-                onChange={handleChange}
-                className='inputo'
-              />
-            </div>
+           
 
             <button className='buto' type='submit'>
               Submit

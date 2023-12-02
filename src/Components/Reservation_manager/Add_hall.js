@@ -5,6 +5,15 @@ import axios from 'axios';
 
 export default function Add_hall() {
 
+  const [hallValues, setHallValues] = useState({
+    customer_id: '',
+    number_of_guest: '',
+    requirements: '',
+    date_and_time: '',
+    details: '',
+    
+  });
+
   const[data,setData]=useState([])
     useEffect(()=>{
         fetch("http://localhost:8080/booking")
@@ -49,6 +58,22 @@ export default function Add_hall() {
         .catch((err) => console.error('Error updating order status:', err));
     };
   
+    const handleHallSubmitn = (event) => {
+      event.preventDefault();
+      axios
+        .post('http://localhost:8080/updateBookingStatusYes', hallValues)
+        .then((res) => {
+          if (res.data === 'Error') {
+            alert('Error');
+          } else {
+            alert('Hall status update Successful');
+          }
+        })
+        .catch((err) => {
+          console.error('Error:', err);
+          alert('An error occurred while booking the hall.');
+        });
+    };
   
 
   return (
@@ -86,8 +111,15 @@ export default function Add_hall() {
                 ))}
             </tbody>
 
+            
+
 
       </table>
+
+
+      
+              <h2>Release Hall</h2>
+              <button className="but" onClick={handleHallSubmitn}>Release Hall</button>
     </div>
   );
 }

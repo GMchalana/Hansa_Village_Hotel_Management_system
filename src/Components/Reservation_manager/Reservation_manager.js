@@ -12,6 +12,8 @@ export default function Reservation_manager() {
     charge: '',
     type: '',
     image: null,
+    availability:'yes',
+    category:'',
   });
 
   const handleInputChange = (e) => {
@@ -29,6 +31,7 @@ export default function Reservation_manager() {
     formData.append('charge', formValues.charge);
     formData.append('type', formValues.type);
     formData.append('image', formValues.image);
+    formData.append('category', formValues.category);
 
     try {
       const response = await axios.post(
@@ -77,6 +80,17 @@ export default function Reservation_manager() {
         type="text"
         id="type"
         name="type"
+        onChange={handleInputChange}
+        className='inputrm'
+      />
+    </div>
+
+    <div>
+      <label className='lablerm'>Category:</label>
+      <input
+        type="text"
+        id="category"
+        name="category"
         onChange={handleInputChange}
         className='inputrm'
       />

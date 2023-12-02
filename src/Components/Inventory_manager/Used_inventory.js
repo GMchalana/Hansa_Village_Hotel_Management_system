@@ -1,7 +1,7 @@
 import React from 'react'
 import Nav from './Nav';
 import './Used_inventory.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 export default function Used_inventory() {
@@ -38,6 +38,15 @@ export default function Used_inventory() {
     }
   };
 
+
+  const[data,setData]=useState([])
+    useEffect(()=>{
+        fetch("http://localhost:8080/inventoty_details")
+        .then(res => res.json())
+        .then(data=>setData(data))
+        .catch(err => console.log(err));
+    },[])
+
   return (
     <div>
       <Nav />
@@ -54,15 +63,16 @@ export default function Used_inventory() {
               name="product_name"
               onChange={(e) => setProductName(e.target.value)}
               className='inputpi'
-              value={product_name}
+              // value={product.Product_Name}
             >
               <option value="">Select an option</option>
-              <option value="sugar">Sugar</option>
-              <option value="carrot">Carrot</option>
-              <option value="chili">Chili</option>
-              <option value="karapincha">Karapincha</option>
-              <option value="Samba Rice">Samba Rice</option>
-              <option value="salt">salt</option>
+
+              {/* Dynamically populate options based on productList data */}
+              {data.map((product) => (
+                <option key={product.id} value={product.Product_Name}>
+                  {product.Product_Name}
+                </option>
+              ))}
             </select>
           </div>
           

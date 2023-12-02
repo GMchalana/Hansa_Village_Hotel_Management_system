@@ -30,7 +30,7 @@ function Nav() {
       const databaseTableData = await fetchInventoryDetails();
 
       const doc = new jsPDF("portrait");
-      doc.addImage(logo, "JPEG", 10, 7, 25, 25);
+      doc.addImage(logo, "JPEG", 12, 12, 25, 25);
       doc.setFont("helvetica", "bold");
       doc.text(80, 20, "Hansa Village Hotel");
       doc.setFont("helvetica", "normal");
@@ -58,6 +58,13 @@ function Nav() {
       } else {
         // Handle case where there is no data
         doc.text(20, 50, "No data available");
+      }
+
+      for (let i = 1; i <= doc.internal.getNumberOfPages(); i++) {
+        doc.setPage(i);
+      
+        // Add a border to the entire page
+        doc.rect(10, 10, doc.internal.pageSize.width - 20, doc.internal.pageSize.height - 8);
       }
 
       doc.setLineWidth(0.5);
@@ -103,7 +110,7 @@ function Nav() {
       const databaseTableDataHall = await fetchInventoryDetailsHall();
 
       const doc = new jsPDF("portrait");
-      doc.addImage(logo, "JPEG", 10, 7, 25, 25);
+      doc.addImage(logo, "JPEG", 12, 12, 25, 25);
       doc.setFont("helvetica", "bold");
       doc.text(80, 20, "Hansa Village Hotel");
       doc.setFont("helvetica", "normal");
@@ -131,6 +138,14 @@ function Nav() {
         // Handle case where there is no data
         doc.text(20, 50, "No data available");
       }
+      
+      for (let i = 1; i <= doc.internal.getNumberOfPages(); i++) {
+        doc.setPage(i);
+      
+        // Add a border to the entire page
+        doc.rect(10, 10, doc.internal.pageSize.width - 20, doc.internal.pageSize.height - 8);
+      }
+      
 
 
       doc.setLineWidth(0.5);
@@ -176,7 +191,7 @@ function Nav() {
       const databaseTableDataRoom = await fetchInventoryDetailsRoom();
 
       const doc = new jsPDF("portrait");
-      doc.addImage(logo, "JPEG", 10, 7, 25, 25);
+      doc.addImage(logo, "JPEG", 12, 12, 25, 25);
       doc.setFont("helvetica", "bold");
       doc.text(80, 20, "Hansa Village Hotel");
       doc.setFont("helvetica", "normal");
@@ -205,6 +220,14 @@ function Nav() {
         // Handle case where there is no data
         doc.text(20, 50, "No data available");
       }
+
+      for (let i = 1; i <= doc.internal.getNumberOfPages(); i++) {
+        doc.setPage(i);
+      
+        // Add a border to the entire page
+        doc.rect(10, 10, doc.internal.pageSize.width - 20, doc.internal.pageSize.height - 8);
+      }
+
       doc.setLineWidth(0.5);
       doc.line(10, doc.internal.pageSize.height - 30, doc.internal.pageSize.width - 10, doc.internal.pageSize.height - 30);
       // Add footer

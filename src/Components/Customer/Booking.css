@@ -87,7 +87,10 @@ html{
 .Rooms{
     display: inline-flex;
     grid-template-rows: 350px 350px 350px;
-    justify-content: center;
+    justify-content: left;
+    width: 100%; /* Set the width of the container */
+    overflow-x: auto; /* Enable horizontal scrolling */
+    white-space: nowrap;
 }
 
 .RoomList{
@@ -106,6 +109,7 @@ html{
     max-height: 50rem;
     transition: 0.2s;
     border-radius: 5rem;
+    padding-bottom: 3rem;
 }
 
 .RoomCard:hover{
@@ -138,7 +142,7 @@ html{
 }
 
 .RoomPrice{
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: bold;
     text-align: center;
 }

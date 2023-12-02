@@ -10,7 +10,7 @@ import ImagesH from '../Images/Hall.jpg';
 
 export default function Booking() {
   const [roomValues, setRoomValues] = useState({
-    customer_id: '',
+    customer_id: localStorage.getItem('userId'),
     number_of_guest: '',
     room_number: '',
     date_and_time: '',
@@ -20,7 +20,7 @@ export default function Booking() {
   });
 
   const [hallValues, setHallValues] = useState({
-    customer_id: '',
+    customer_id: localStorage.getItem('userId'),
     number_of_guest: '',
     requirements: '',
     date_and_time: '',
@@ -91,6 +91,23 @@ export default function Booking() {
       });
   };
 
+  const handleHallSubmitn = (event) => {
+    event.preventDefault();
+    axios
+      .post('http://localhost:8080/updateBookingStatus', hallValues)
+      .then((res) => {
+        if (res.data === 'Error') {
+          alert('Error');
+        } else {
+          alert('Hall status update Successful');
+        }
+      })
+      .catch((err) => {
+        console.error('Error:', err);
+        alert('An error occurred while booking the hall.');
+      });
+  };
+
 
   const [buttonPopup, setButtonPopup] = useState(false)
 
@@ -105,6 +122,15 @@ export default function Booking() {
   },[])
 
 
+  const[datah,setDatah]=useState([])
+  useEffect(()=>{
+      fetch("http://localhost:8080/hansavillagehotel/hall_status")
+      .then(res => res.json())
+      .then(data=>setDatah(data))
+      .catch(err => console.log(err));
+  },[])
+
+
   return (
     <div className='container'>
       <Nav />
@@ -113,11 +139,12 @@ export default function Booking() {
       <div className='Rooms'>
         {data.map((content, index) => (
           <div key={content.idR} onClick={() => setButtonPopup(true)}> 
-            <div onClick={() => setRoomValues({ ...roomValues, room_number: content.Room_Id , room_type: content.Type, Availability:content.Availability})}>
+            <div onClick={() => setRoomValues({ ...roomValues, room_number: content.Room_Id , room_type: content.Type, Availability:content.Availability, category:content.Category})}>
               <Rooms
                 id={content.Room_Id}
                 idR={content.idR}
                 type={content.Type}
+                category={content.Category}
                 Availability={content.Availability}
                 price={content.Charge_per_Day}
                 imageR={'http://localhost:8080/hansavillagehotel/'+ content.Image}
@@ -126,19 +153,28 @@ export default function Booking() {
           </div>
         ))}
       </div>
+
+
+
+
       <div className='head'>Hall</div>
-      <div>
-        <div className='HallCard' onClick={() => setButtonPopup1(true)}>
+      <div >
+      {datah.map((content1, index) => (
+          <div className='HallCard' onClick={() => setButtonPopup1(true)}> 
             <img className='Hall' src={ImagesH} alt='Hall.img' />
-            <div className='Hdetail'>
-            <h4 className='Ava'>Availability: Yes</h4>
-          </div>
-        </div>
+              <div className='Hdetail'> 
+                <h4 className='Ava'>Availability:{content1.Availability}</h4>
+              </div>
+            </div>
+        ))}
       </div>
+
+
+
       <Popup_booking trigger={buttonPopup} setTrigger={setButtonPopup}>
         <h2>Book Your Room</h2>
         <form className='formb' onSubmit={handleRoomSubmit}>
-          <div>
+          {/* <div>
             <label className='labelb'>Customer ID:</label>
             <input
               type='text'
@@ -147,7 +183,7 @@ export default function Booking() {
               onChange={handleRoomChange}
               className='inputb'
             />
-          </div>
+          </div> */}
           <div>
             <label className='labelb'>Room Number:</label>
             <input
@@ -211,8 +247,8 @@ export default function Booking() {
 
       <Popup_booking_hall trigger={buttonPopup1} setTrigger={setButtonPopup1}>
         <h2>Book Your Hall</h2>
-        <form className='formb' onSubmit={handleHallSubmit}>
-          <div>
+        <form className='formb' onSubmit={(event) => { handleHallSubmit(event); handleHallSubmitn(event); }}>
+          {/* <div>
             <label className='labelb'>Customer ID:</label>
             <input
               type='text'
@@ -221,7 +257,7 @@ export default function Booking() {
               onChange={handleHallChange}
               className='inputb'
             />
-          </div>
+          </div> */}
           <div>
             <label className='labelb'>Number Of Guest:</label>
             <input
